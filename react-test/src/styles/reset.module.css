@@ -1,0 +1,30 @@
+.reset {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #707070;
+  font-style: italic;
+}
+
+.text-reset {
+  font-size: 35px;
+  text-align: center;
+}
+
+.container-reset {
+  width: 352px;
+  height: 337px;
+  background-color: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 25px #00000014;
+  border: 1px solid #DDDDDD;
+  border-radius: 14px;
+}
+
+.input-reset {
+  font-size: 17px;
+  border-bottom: 2px solid #EBEBEB;
+}
+
+.button-reset {
+  color: #B5C401;
+}

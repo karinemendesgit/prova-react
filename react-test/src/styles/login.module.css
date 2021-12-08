@@ -1,0 +1,37 @@
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #707070;
+  font-style: italic;
+}
+
+.text-login {
+  font-size: 35px;
+  text-align: center;
+}
+
+.container-login {
+  width: 352px;
+  height: 337px;
+  background-color: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 25px #00000014;
+  border: 1px solid #DDDDDD;
+  border-radius: 14px;
+}
+
+.input-login {
+  font-size: 17px;
+  border-bottom: 2px solid #EBEBEB;
+}
+
+.question-login {
+  color: #C1C1C1;
+  font-size: 17px;
+  font-weight: 200;
+  margin-left: 166px;
+}
+
+.button-login {
+  color: #B5C401;
+}
