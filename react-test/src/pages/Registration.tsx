@@ -1,12 +1,16 @@
 import React from "react";
+import Sidebar from "../components/Sidebar";
 
-const Login: React.FC = () => {
+const Registration: React.FC = () => {
   return (
     <div>
       <div>
-        <h3>Authentication</h3>
+        <h3>Registration</h3>
         <div>
           <div>
+            <div>
+              <input type="text" name="" id="" placeholder="Name"/>
+            </div>
             <div>
               <input type="email" name="" id="" placeholder="Email" />
             </div>
@@ -14,19 +18,18 @@ const Login: React.FC = () => {
               <input type="password" name="" id="" placeholder="Password"/>
             </div>
           </div>
-          <p>I forget my password</p>
           <div>
-            <h3>Log In</h3>
+            <h3>Register</h3>
             <img src="" alt="" />
           </div>
         </div>
         <div>
-          <h3>Sign Up</h3>
           <img src="" alt="" />
+          <h3>Back</h3>
         </div>
       </div>
     </div>
   );
 }
 
-export default Login;
+export default Registration;
