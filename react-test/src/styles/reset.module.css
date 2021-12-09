@@ -23,6 +23,8 @@
 .input-reset {
   font-size: 17px;
   border-bottom: 2px solid #EBEBEB;
+  width: 352px;
+  height: 85px;
 }
 
 .button-reset {
