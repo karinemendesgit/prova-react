@@ -1,4 +1,5 @@
 import React from "react";
+import rigthArrow from "../assets/right-arrow.svg";
 
 const Login: React.FC = () => {
   return (
@@ -17,12 +18,12 @@ const Login: React.FC = () => {
           <p>I forget my password</p>
           <div>
             <h3>Log In</h3>
-            <img src="" alt="" />
+            <img src="" alt="lime-green right-arrow" />
           </div>
         </div>
         <div>
           <h3>Sign Up</h3>
-          <img src="" alt="" />
+          <img src={rigthArrow} alt="right-arrow" />
         </div>
       </div>
     </div>
