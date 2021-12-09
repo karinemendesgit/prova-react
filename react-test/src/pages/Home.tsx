@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import rigthArrow from "../assets/right-arrow.svg";
 
 const Home: React.FC = () => {
@@ -28,8 +29,9 @@ const Home: React.FC = () => {
             <button>Lotomania</button>
           </div>
           <div>
-            <h3>New Bet</h3>
-            
+            <Link to="/new-bet">
+              <h3>New Bet</h3>
+            </Link>
           </div>
         </div>
       </main>

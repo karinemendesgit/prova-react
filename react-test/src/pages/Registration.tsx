@@ -1,5 +1,5 @@
 import React from "react";
-import Sidebar from "../components/Sidebar";
+import { Link } from "react-router-dom";
 
 const Registration: React.FC = () => {
   return (
@@ -24,8 +24,10 @@ const Registration: React.FC = () => {
           </div>
         </div>
         <div>
-          <img src="" alt="" />
-          <h3>Back</h3>
+          <Link to="/">
+            <img src="" alt="" />
+            <h3>Back</h3>
+          </Link>
         </div>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const ResetPassword: React.FC = () => {
   return (
@@ -17,8 +18,10 @@ const ResetPassword: React.FC = () => {
           </div>
         </div>
         <div>
-          <img src="" alt="" />
-          <h3>Back</h3>
+          <Link to="/">
+            <img src="" alt="" />
+            <h3>Back</h3>
+          </Link>
         </div>
       </div>
     </div>
