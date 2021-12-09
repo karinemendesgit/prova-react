@@ -1,0 +1,127 @@
+.header {
+  font-style: italic;    
+  border-bottom: 2px solid #EBEBEB;
+  height: 76px;
+  color: #707070;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header h1 {
+  font-size: 20px;    
+}
+
+.header h1:hover {
+  cursor: pointer;
+}
+
+.header strong {
+  font-size: 44px;
+}
+
+.head1 {
+  display: flex;
+  gap: 74px;
+  margin-left: 130px;
+  align-items: center;
+}
+
+.tgl {
+  border-bottom: 7px solid #B5C401;
+  border-radius: 6px;
+  width: 107px;
+  height: 79px;
+  display: flex;    
+}
+
+.tgl strong {
+  margin-left: 11px;
+  font-size: 44px;
+  margin-top: 15px;
+}
+
+.head2 {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.logout {
+  display: flex;
+  align-items: center;
+}
+
+.logout img {
+  height: 17px;
+  width: 21px;
+  margin-left: 10px;
+  margin-right: 200px;
+}
+
+.new-bet {
+  font-family: 'Helvetica Neue';
+  color: #868686;
+  font-style: italic;
+}
+
+.new-bet p {
+  color: #707070;
+  font-size: 24px;
+}
+
+.new-bet h3 {
+  font-size: 17px;
+}
+
+.new-bet span {
+  font-weight: lighter;
+}
+
+.lotofacil {
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border: 2px solid #7F3992;
+  border-radius: 100px;
+  color: #7F3992;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.lotofacil:active {
+  background: #7F3992 0% 0% no-repeat padding-box;
+  border: 2px solid #7F3992;
+  color: #FFFFFF;
+}
+
+.megasena {
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border: 2px solid #01AC66;
+  border-radius: 100px;
+  color: #01AC66;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.megasena:active {
+  background: #01AC66 0% 0% no-repeat padding-box;
+  border: 2px solid #01AC66;
+  color: #FFFFFF;
+}
+
+.lotomania {
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border: 2px solid #F79C31;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.megasena:active {
+  background: #F79C31 0% 0% no-repeat padding-box;
+  border: 2px solid #F79C31;
+  color: #FFFFFF;
+}
+
+.new-bet-redirect {
+  color: #B5C401;
+}
