@@ -1,26 +1,27 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
+import classes from "../styles/registration.module.css";
 
 const Registration: React.FC = () => {
   return (
-    <div>
+    <div className={classes.container}>
       <Sidebar/>
-      <div>
+      <div className={classes.registration}>
         <h3>Registration</h3>
-        <div>
+        <div className={classes.containerRegistration}>
           <div>
-            <div>
+            <div className={classes.inputRegistration}>
               <input type="text" name="" id="" placeholder="Name"/>
             </div>
-            <div>
+            <div className={classes.inputRegistration}>
               <input type="email" name="" id="" placeholder="Email" />
             </div>
-            <div>
+            <div className={classes.inputRegistration}>
               <input type="password" name="" id="" placeholder="Password"/>
             </div>
           </div>
-          <div>
+          <div className={classes.buttonRegistration}>
             <h3>Register</h3>
             <img src="" alt="" />
           </div>

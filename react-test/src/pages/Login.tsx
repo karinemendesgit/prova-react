@@ -27,8 +27,8 @@ const Login: React.FC = () => {
 
           </div>
         </div>
-        <div className={classes.signUp}>
-          <Link to="/register">
+        <div >
+          <Link to="/register" className={classes.signUp}>
             <h3>Sign Up</h3>
             <img src={rigthArrow} alt="right-arrow" />
           </Link>
