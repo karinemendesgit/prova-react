@@ -59,22 +59,30 @@
   margin-right: 200px;
 }
 
-.new-bet {
+.newBet {
   color: #868686;
   font-style: italic;
+  display: flex;
+  justify-content: space-between;
 }
 
-.new-bet p {
+.newBet p {
   color: #707070;
   font-size: 24px;
 }
 
-.new-bet h3 {
+.newBet h3 {
   font-size: 17px;
 }
 
-.new-bet span {
+.newBet span {
   font-weight: lighter;
+}
+
+.rigthSideNB {
+  display: flex;
+  flex-direction: column;
+
 }
 
 .lotofacil {
@@ -119,8 +127,4 @@
   background: #F79C31 0% 0% no-repeat padding-box;
   border: 2px solid #F79C31;
   color: #FFFFFF;
-}
-
-.new-bet-redirect {
-  color: #B5C401;
 }

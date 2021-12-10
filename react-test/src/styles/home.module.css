@@ -50,6 +50,7 @@
 .logout {
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .logout img {
@@ -62,6 +63,10 @@
 .home {
   color: #868686;
   font-style: italic;
+  margin-top: 71px;
+  margin-left: 130px;
+  margin-top: 71px;
+  margin-left: 130px;
 }
 
 .home h3 {
@@ -71,6 +76,26 @@
 
 .home p {
   font-size: 17px;
+}
+
+.rigthSide {
+  display: flex;
+  flex-direction: column;
+}
+
+.firstLine {
+  display: flex;
+  height: 571px;
+}
+
+.buttonsHome {
+  display: flex;
+  gap: 20px;
+}
+
+.buttonsHome button {
+  height: 34px;
+  width: 113px;
 }
 
 .lotofacil {
@@ -109,14 +134,15 @@
   border-radius: 100px;
   font-size: 14px;
   font-weight: bold;
+  color: #F79C31;
 }
 
-.megasena:active {
+.lotomania:active {
   background: #F79C31 0% 0% no-repeat padding-box;
   border: 2px solid #F79C31;
   color: #FFFFFF;
 }
 
-.home-redirect {
+.homeRedirect {
   color: #B5C401;
 }
