@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
 
 const Registration: React.FC = () => {
   return (
     <div>
+      <Sidebar/>
       <div>
         <h3>Registration</h3>
         <div>

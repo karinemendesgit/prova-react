@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
 
 const ResetPassword: React.FC = () => {
   return (
     <div>
+      <Sidebar/>
       <div>
         <h3>Reset password</h3>
         <div>
