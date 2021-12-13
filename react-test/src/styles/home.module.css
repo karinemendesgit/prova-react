@@ -47,17 +47,14 @@
   gap: 40px;
 }
 
-.logout {
+.logout a {
+  text-decoration: none;
+  color: #707070;
   display: flex;
   align-items: center;
-  justify-content: center;
-}
-
-.logout img {
-  height: 17px;
-  width: 21px;
-  margin-left: 10px;
-  margin-right: 200px;
+  gap: 10px;
+  margin-left: 57px;
+  margin-right: 199px;
 }
 
 .home {
@@ -65,8 +62,9 @@
   font-style: italic;
   margin-top: 71px;
   margin-left: 130px;
-  margin-top: 71px;
-  margin-left: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .home h3 {
@@ -85,7 +83,9 @@
 
 .firstLine {
   display: flex;
+  align-items: center;
   height: 571px;
+  gap: 15px;
 }
 
 .buttonsHome {
@@ -143,6 +143,14 @@
   color: #FFFFFF;
 }
 
-.homeRedirect {
+.leftSide h3 {
   color: #B5C401;
+  margin-right: 11px;
+}
+
+.leftSide a {
+  color: #B5C401;
+  display: flex;
+  margin-right: 196px;
+  align-items: center;
 }

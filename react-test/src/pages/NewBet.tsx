@@ -1,70 +1,59 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import cart from "../assets/cart.svg";
-import greenRightArrow from "../assets/green-right-arrow.svg";
-import rigthArrow from "../assets/right-arrow.svg";
 import classes from "../styles/newbet.module.css";
+import Header from "../components/Header";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 const NewBet: React.FC = () => {
   return (
     <div>
-      <header className={classes.header}>
-        <div className={classes.head1}>
-          <div className={classes.tgl}>
-            <strong>TGL</strong>
-          </div>
-          <Link to="/home">
-            <h1>Home</h1>
-          </Link>
-        </div>
-        <div className={classes.head2}>
-          <h1>Account</h1>
-          <div className={classes.logout}>
-            <Link to="/">
-              <h1>Log out</h1> 
-              <img src={rigthArrow} alt="right arrow gray icon" />
-            </Link>
-          </div>            
-        </div>
-      </header>
+      <Header/>
       <main className={classes.newBet}>
         <div className={classes.rightSideNB}>
-          <div>
+          <div className={classes.title}>
             <p><b>NEW BET</b> FOR </p>
             <p></p>
           </div>
-          <h3>Choose a game</h3>
-          <div>
+          <h3 className={classes.textNB}>Choose a game</h3>
+          <div className={classes.buttonsNB}>
+            <button className={classes.lotofacil}>Lotofácil</button>
+            <button className={classes.megasena}>Mega-Sena</button>
+            <button className={classes.lotomania}>Lotomania</button>
           </div>
           <div>
-            <h3><b>Fill your bet</b>
+            <h3 className={classes.textNB}><b>Fill your bet</b>
             <br/><span></span>
             </h3>
           </div>        
           <div></div>
-          <div>
+          <div className={classes.betButtons}>
             <div>
-              <button>Complete game</button>
-              <button>Clear game</button>
+              <button className={classes.completeGame}>Complete game</button>
+              <button className={classes.clearGame}>Clear game</button>
             </div>
             <div>
-              <button>
+              <button className={classes.addTo}>
                 <img src={cart} alt="cart icon" />
                 Add to cart
               </button>
             </div>
           </div>
         </div>
-        <div>
+        <div className={classes.cart}>
             <h2><b>CART</b></h2>
             <div>          
               <div></div>
             </div>
-            <h2><b>CART</b> TOTAL: R$0,00</h2>    
+            <div className={classes.total}>
+              <h2>CART <p>TOTAL: R$0,00</p></h2> 
+            </div>
+               
           <div>
             <Link to="/new-bet">
               <h1>Save</h1>
-              <img src={greenRightArrow} alt="right arrow green icon" />
+              <FontAwesomeIcon icon={faArrowRight}/>
             </Link>
           </div>
         </div>

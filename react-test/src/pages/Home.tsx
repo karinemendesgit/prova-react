@@ -1,27 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import rigthArrow from "../assets/right-arrow.svg";
 import classes from "../styles/home.module.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import Header from "../components/Header";
 
 const Home: React.FC = () => {
   return (
     <div>
-      <header className={classes.header}>
-        <div className={classes.head1}>
-          <div className={classes.tgl}>
-            <strong>TGL</strong>
-          </div>
-        </div>
-        <div className={classes.head2}>
-          <h1>Account</h1>
-          <div className={classes.logout}>
-            <Link to="/">
-              <h1>Log out</h1> 
-              <img src={rigthArrow} alt="right arrow gray icon" />
-            </Link>
-          </div>            
-        </div>
-      </header>
+      <Header/>
       <main className={classes.home}>
         <div className={classes.rigthSide}>
           <div className={classes.firstLine}>
@@ -37,11 +24,12 @@ const Home: React.FC = () => {
               <button className={classes.lotomania}>Lotomania</button>
             </div>
           </div>
-          <div className={classes.leftSide}>
-            <Link to="/new-bet">
-              <h3 className={classes.homeRedirect}>New Bet</h3>
-            </Link>
-          </div>
+        </div>
+        <div className={classes.leftSide}>
+          <Link to="/new-bet">
+            <h3>New Bet</h3>
+            <FontAwesomeIcon icon={faArrowRight}/>
+          </Link>
         </div>
       </main>
     </div>
