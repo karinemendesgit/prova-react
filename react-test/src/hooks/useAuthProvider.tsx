@@ -3,7 +3,7 @@ import { useState } from 'react';
 function useAuthProvider() {
   const [token, setToken] = useState(localStorage.getItem('token') ?? null);
   const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem('userData')) ?? null,
+    JSON.parse(localStorage.getItem('token')) ?? null,
   );
 
   const login = (userData, callback) => {

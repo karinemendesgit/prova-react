@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import classes from "../styles/login.module.css";
@@ -8,6 +8,7 @@ import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 const Login: React.FC = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const [isLogin, setIsLogin] = useState(true);
   return (
     <div className={classes.container}>
       <Sidebar/>

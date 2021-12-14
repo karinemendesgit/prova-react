@@ -1,9 +1,14 @@
 import { createContext } from 'react';
 import useAuthProvider from '../hooks/useAuthProvider';
 
-const AuthContext: React.FC = () => {createContext()} ;
+const AuthContext = createContext({
+  token: '',
+  isLoggedIn: false,
+  login: (token) =>  {},
+  logout: () => {},
+}) ;
 
-export function AuthProvider({ children }) {
+export const AuthProvider = ( children ) => {
   const auth = useAuthProvider();
 
   return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
