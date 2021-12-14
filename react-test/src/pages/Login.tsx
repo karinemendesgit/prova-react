@@ -1,22 +1,25 @@
-import React from "react";
-import rigthArrow from "../assets/right-arrow.svg";
+import { useRef } from "react";
 import { Link } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import classes from "../styles/login.module.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 const Login: React.FC = () => {
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
   return (
     <div className={classes.container}>
       <Sidebar/>
       <div className={classes.login}>
         <h3>Authentication</h3>
         <div className={classes.containerLogin}>
-          <div >
+          <div>
             <div className={classes.inputLogin}>
-              <input type="email" name="" id="" placeholder="Email" />
+              <input type="email" name="" id="" placeholder="Email" ref={emailRef} required/>
             </div>
             <div className={classes.inputLogin}>
-              <input type="password" name="" id="" placeholder="Password"/>
+              <input type="password" name="" id="" placeholder="Password" ref={passwordRef} required/>
             </div>
           </div>
           <Link to="/reset-password">
@@ -24,13 +27,13 @@ const Login: React.FC = () => {
           </Link>
           <div className={classes.buttonLogin}>
             <h3>Log In</h3>
-
+            <FontAwesomeIcon icon={faArrowRight}/>
           </div>
         </div>
-        <div >
+        <div>
           <Link to="/register" className={classes.signUp}>
             <h3>Sign Up</h3>
-            <img src={rigthArrow} alt="right-arrow" />
+            <FontAwesomeIcon icon={faArrowRight}/>
           </Link>
         </div>
       </div>
