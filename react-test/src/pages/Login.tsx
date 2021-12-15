@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import Sidebar from "../components/Sidebar";
 import classes from "../styles/login.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -9,6 +10,8 @@ const Login: React.FC = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const [isLogin, setIsLogin] = useState(true);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   return (
     <div className={classes.container}>
       <Sidebar/>

@@ -1,5 +1,6 @@
 import { useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux"
 import Sidebar from "../components/Sidebar";
 import classes from "../styles/reset.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -7,6 +8,9 @@ import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 const ResetPassword: React.FC = () => {
   const emailRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  
   return (
     <div className={classes.container}>
       <Sidebar/>
