@@ -3,6 +3,7 @@
   text-align: center;
   margin: 0;
   padding: 0;
+  font-family: "Helvetica Neue";
 }
 
 input:focus {
@@ -12,4 +13,5 @@ input:focus {
 
 a {
   text-decoration: none;
+  font-family: "Helvetica Neue";
 }

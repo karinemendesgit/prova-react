@@ -27,6 +27,12 @@
   align-items: center;
 }
 
+.head1 a {
+  font-size: 20px;
+  color: #707070;
+  font-weight: bold;
+}
+
 .tgl {
   border-bottom: 7px solid #B5C401;
   border-radius: 6px;
@@ -55,4 +61,5 @@
   gap: 10px;
   margin-left: 57px;
   margin-right: 199px;
+  font-size: 20px;
 }

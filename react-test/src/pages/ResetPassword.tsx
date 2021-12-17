@@ -22,12 +22,12 @@ const ResetPassword: React.FC = () => {
             <input type="email" name="" id="" placeholder="Email" ref={emailRef} required/>
             </div>
           </div>
-          <div>
-            <h3 className={classes.buttonReset}>Send link</h3>
+          <div className={classes.buttonReset}>
+            <h3>Send link</h3>
             <FontAwesomeIcon icon={faArrowRight}/>
           </div>
         </div>
-        <div>
+        <div className={classes.backButtonReset}>
           <Link to="/">
             <FontAwesomeIcon icon={faArrowLeft}/>
             <h3>Back</h3>

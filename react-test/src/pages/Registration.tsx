@@ -34,7 +34,7 @@ const Registration: React.FC = () => {
             <FontAwesomeIcon icon={faArrowRight}/>
           </div>
         </div>
-        <div>
+        <div className={classes.backButtonRegistration}>
           <Link to="/">
             <FontAwesomeIcon icon={faArrowLeft}/>
             <h3>Back</h3>
