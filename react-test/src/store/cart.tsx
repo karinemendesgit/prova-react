@@ -5,7 +5,7 @@ interface BetCart {
   description: string,
   range: number,
   price: number,
-  maxNumber: number,
+  "max-number": number,
   color: string,
   selected: boolean
 };
@@ -40,7 +40,7 @@ const initialState: InitialStateItems = {
     description: '',
     range: 0,
     price: 0,
-    maxNumber: 0,
+    "max-number": 0,
     color: '',
     selected: true
   },
@@ -59,12 +59,12 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     replaceCart(state, action) {
-      state.totalQuantity = action.payload.totalQuantity;
-      state.items = action.payload.items;
+      state.totalPrice = action.payload.totalQuantity;
+      state.counter = action.payload.items;
     },
     addItemToCart(state, action) {
       const newItem = action.payload;
-      const existingItem = state.items.find((item) => item.id === newItem.id);
+      const existingItem = state.active.name.find((item) => item.id === newItem.id);
       state.totalQuantity++;
       state.changed = true;
       if (!existingItem) {
