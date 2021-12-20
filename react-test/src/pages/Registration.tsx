@@ -18,7 +18,7 @@ const Registration: React.FC = () => {
       <div className={classes.registration}>
         <h3>Registration</h3>
         <div className={classes.containerRegistration}>
-          <div>
+          <form>
             <div className={classes.inputRegistration}>
               <input type="text" name="" id="" placeholder="Name" ref={nameRef} required/>
             </div>
@@ -28,7 +28,7 @@ const Registration: React.FC = () => {
             <div className={classes.inputRegistration}>
               <input type="password" name="" id="" placeholder="Password" ref={passwordRef} required/>
             </div>
-          </div>
+          </form>
           <div className={classes.buttonRegistration}>
             <h3>Register</h3>
             <FontAwesomeIcon icon={faArrowRight}/>

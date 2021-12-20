@@ -17,11 +17,11 @@ const ResetPassword: React.FC = () => {
       <div className={classes.reset}>
         <h3>Reset password</h3>
         <div className={classes.containerReset}>
-          <div>
+          <form>
             <div className={classes.inputReset}>
             <input type="email" name="" id="" placeholder="Email" ref={emailRef} required/>
             </div>
-          </div>
+          </form>
           <div className={classes.buttonReset}>
             <h3>Send link</h3>
             <FontAwesomeIcon icon={faArrowRight}/>
