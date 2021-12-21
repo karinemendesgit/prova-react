@@ -16,8 +16,7 @@ interface betSave {
   name: string,
   price: number, 
   color: string,
-  numbers: number,
-  date: string
+  numbers: number[],
 };
 
 interface InitialStateItems {
@@ -83,9 +82,49 @@ const cartSlice = createSlice({
         }
       }) 
     },
+    choiceNumber (state, action) {
+
+    },
+    clearGame (state) {
+      state.selectedNumbers = [];
+    },
+    completeGame(state) {
+      let missingNumbers = state.active['max-number'] - state.selectedNumbers.length;
+      let randomNumbers: number;
+
+      for (let i = 0; i < missingNumbers; i++) {
+        randomNumbers = Math.round(Math.random() * (state.active.range - 1) + 1)
+      };
+
+      while (state.selectedNumbers.includes(randomNumbers)) {
+        randomNumbers = Math.round(Math.random() * (state.active.range - 1) + 1)
+      }
+
+      state.selectedNumbers.push(randomNumbers)
+    },
     addItemOnCart (state) {
+      const game = {
+        id: state.quantity,
+        name: state.active.name,
+        price: state.active.price,
+        color: state.active.color,        
+        numbers: state.selectedNumbers
+      }
+
+      state.totalPrice = state.totalPrice + state.active.price;
+      state.games.push(game);
+      state.quantity++;
+      state.selectedNumbers = []
+
       const missingNumbers = state.active['max-number'] - state.selectedNumbers.length;
       state.selectedNumbers.sort((a, b) => a - b);
+
+      if (state.active['max-number'] > state.selectedNumbers.length) {
+        return alert(`Still need to select ${missingNumbers} numbers!`);
+      } else {
+        return alert ("The maximum quantity of numbers has already been selected!");
+      }
+
     },
     removeItemFromCart (state, action) {
       const id = action.payload;
