@@ -15,7 +15,7 @@ const Login: React.FC = () => {
 
   const loginHandler = (event:any) => {
     event.preventDefault();
-    dispatch(authActions.login());
+    //dispatch(authActions.login());
   }
   return (
     <div className={classes.container}>
