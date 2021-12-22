@@ -14,7 +14,7 @@ interface Game {
 export const fetchGames = () => {
   return async (dispatch: Dispatch) => {
     const fetchData = async () => {
-      const response = await fetch ('./games.json');
+      const response = await fetch ('../../games.json');
       if (!response.ok) {
         throw new Error ('Something wrong happened. Try again!');
       }

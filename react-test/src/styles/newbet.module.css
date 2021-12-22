@@ -86,6 +86,24 @@
   color: #FFFFFF;
 }
 
+.numbers {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+}
+
+.numbers button {
+  background-color: #ADC0C4;
+  width: 63px;
+  height: 65px;
+  border-radius: 50%;
+  gap: 12px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #FFFFFF;
+  margin-top: 20px;
+  border: none;
+}
+
 .betButtons {
   display: flex;
 }

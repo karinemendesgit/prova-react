@@ -4,6 +4,7 @@ import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
 import { cartActions } from "../store/cart";
 
 import cartIcon from "../assets/cart.svg";
+import trashIcon from "../assets/trash.svg";
 import classes from "../styles/newbet.module.css";
 import Header from "../components/Header";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -38,6 +39,14 @@ const NewBet: React.FC = () => {
     dispatch(cartActions.addItemOnCart());
   }
 
+  function removeItemFromCart () {
+    dispatch(cartActions.removeItemFromCart);
+  }
+
+  function saveGame () {
+    dispatch(cartActions.saveGame);
+  }
+
   return (
     <div>
       <Header/>
@@ -58,7 +67,13 @@ const NewBet: React.FC = () => {
             <br/><span>{betSelected.description}</span>
             </h3>
           </div>        
-          <div></div>
+          <div>
+            {numbers.map((number: number) => (
+              <div className={classes.numbers}>
+                <button>number = {number}</button>
+              </div>
+            ))}
+          </div>
           <div className={classes.betButtons}>
             <div>
               <button 
@@ -87,18 +102,32 @@ const NewBet: React.FC = () => {
             <div>          
               <div>
                 {games.length > 0 ? (
-                  games.map((game) => {
-                    
+                  games.map((game: any) => {
+                    <div>
+                      <div>
+                        <button onClick={removeItemFromCart}>
+                          <img src={trashIcon}/>
+                        </button>
+                      </div>      
+                      <div>
+                        <p>
+                          {game.numbers.toString().replace(/,/g, ', ')}
+                        </p>
+                        <div>
+                          <p>{game.name}</p>
+                          <span>{game.price}</span>
+                        </div>
+                      </div>
+                    </div>
                   })
-                )}
+                ) : (<p>Empty Cart</p>)}
               </div>
             </div>
             <div className={classes.total}>
-              <h2>CART <p>TOTAL: R$0,00</p></h2> 
-            </div>
-               
+              <h2>CART <p>TOTAL: {totalPrice}</p></h2> 
+            </div>               
           <div>
-            <Link to="/new-bet">
+            <Link to="/new-bet" onClick={saveGame}>
               <h1>Save</h1>
               <FontAwesomeIcon icon={faArrowRight}/>
             </Link>
