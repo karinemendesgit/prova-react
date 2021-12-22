@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { stat } from 'fs';
 
 interface BetCart {
   name: string,
@@ -29,7 +28,6 @@ interface InitialStateItems {
   games: Array<betSave>;
   savedGames: Array<betSave>;
   filteredGames: Array<betSave>;
-  savedSuccessfully: boolean;
 }
 
 const initialState: InitialStateItems = {
@@ -49,8 +47,7 @@ const initialState: InitialStateItems = {
   quantity: 0,
   games: [],
   savedGames: [],
-  filteredGames: [],
-  savedSuccessfully: false
+  filteredGames: []
 };
 
 
@@ -82,25 +79,19 @@ const cartSlice = createSlice({
         }
       }) 
     },
-    choiceNumber (state, action) {
-
-    },
     clearGame (state) {
       state.selectedNumbers = [];
     },
     completeGame(state) {
       let missingNumbers = state.active['max-number'] - state.selectedNumbers.length;
-      let randomNumbers: number;
 
       for (let i = 0; i < missingNumbers; i++) {
-        randomNumbers = Math.round(Math.random() * (state.active.range - 1) + 1)
-      };
-
-      while (state.selectedNumbers.includes(randomNumbers)) {
-        randomNumbers = Math.round(Math.random() * (state.active.range - 1) + 1)
+        let randomNumbers = Math.round(Math.random() * (state.active.range - 1) + 1)      
+        while (state.selectedNumbers.includes(randomNumbers)) {
+          randomNumbers = Math.round(Math.random() * (state.active.range - 1) + 1)
+        }
+        state.selectedNumbers.push(randomNumbers)
       }
-
-      state.selectedNumbers.push(randomNumbers)
     },
     addItemOnCart (state) {
       const game = {
@@ -124,7 +115,6 @@ const cartSlice = createSlice({
       } else {
         return alert ("The maximum quantity of numbers has already been selected!");
       }
-
     },
     removeItemFromCart (state, action) {
       const id = action.payload;
@@ -135,6 +125,15 @@ const cartSlice = createSlice({
         state.totalPrice = state.totalPrice - existingItem.price;
       }
     },
+    saveGame (state) {
+      if (state.totalPrice >= state.minCartValue) {
+        state.savedGames = [...state.savedGames, ...state.games];
+        state.games = [];
+        state.totalPrice = 0;
+      } else {
+        return alert (`The minimum cart value to save the bet is R$${state.minCartValue}`);
+      }
+    }
   },
 });
 

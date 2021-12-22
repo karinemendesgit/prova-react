@@ -1,12 +1,43 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import cart from "../assets/cart.svg";
+import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
+import { cartActions } from "../store/cart";
+
+import cartIcon from "../assets/cart.svg";
 import classes from "../styles/newbet.module.css";
 import Header from "../components/Header";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 const NewBet: React.FC = () => {
+  const dispatch = useDispatch();
+  const betCart = useSelector((state: RootStateOrAny) => state.cart.types);
+  const betSelected = useSelector((state: RootStateOrAny) => state.cart.active);
+  const games = useSelector((state: RootStateOrAny) => state.cart.games);
+  const totalPrice = useSelector((state: RootStateOrAny) => state.cart.totalPrice);
+
+  let numbers: number[] = [];
+
+  for (let i = 1; i <= betSelected; i++) {
+    numbers.push(i);
+  }
+
+  function selectGame (name:string) {
+    dispatch(cartActions.selectGame(name));
+  }
+
+  function completeGame () {
+    dispatch(cartActions.completeGame());
+  }
+
+  function clearGame () {
+    dispatch(cartActions.clearGame());
+  }
+
+  function addItemOnCart () {
+    dispatch(cartActions.addItemOnCart());
+  }
+
   return (
     <div>
       <Header/>
@@ -14,7 +45,7 @@ const NewBet: React.FC = () => {
         <div className={classes.rightSideNB}>
           <div className={classes.title}>
             <p><b>NEW BET</b> FOR </p>
-            <p></p>
+            <p>{betSelected.name}</p>
           </div>
           <h3 className={classes.textNB}>Choose a game</h3>
           <div className={classes.buttonsNB}>
@@ -24,19 +55,29 @@ const NewBet: React.FC = () => {
           </div>
           <div>
             <h3 className={classes.textNB}><b>Fill your bet</b>
-            <br/><span></span>
+            <br/><span>{betSelected.description}</span>
             </h3>
           </div>        
           <div></div>
           <div className={classes.betButtons}>
             <div>
-              <button className={classes.completeGame}>Complete game</button>
-              <button className={classes.clearGame}>Clear game</button>
+              <button 
+                onClick={completeGame}
+                className={classes.completeGame}>      
+                  Complete game
+              </button>
+              <button 
+                onClick={clearGame}
+                className={classes.clearGame}>
+                  Clear game
+              </button>
             </div>
             <div>
-              <button className={classes.addTo}>
-                <img src={cart} alt="cart icon" />
-                Add to cart
+              <button 
+                onClick={addItemOnCart}
+                className={classes.addTo}>
+                  <img src={cartIcon} alt="cart icon" />
+                  Add to cart
               </button>
             </div>
           </div>
@@ -44,7 +85,13 @@ const NewBet: React.FC = () => {
         <div className={classes.cart}>
             <h2><b>CART</b></h2>
             <div>          
-              <div></div>
+              <div>
+                {games.length > 0 ? (
+                  games.map((game) => {
+                    
+                  })
+                )}
+              </div>
             </div>
             <div className={classes.total}>
               <h2>CART <p>TOTAL: R$0,00</p></h2> 
