@@ -79,19 +79,35 @@ const cartSlice = createSlice({
         }
       }) 
     },
-    clearGame (state) {
-      state.selectedNumbers = [];
-    },
     completeGame(state) {
-      let missingNumbers = state.active['max-number'] - state.selectedNumbers.length;
+      //let missingNumbers = state.active['max-number'] - state.selectedNumbers.length;
 
-      for (let i = 0; i < missingNumbers; i++) {
-        let randomNumbers = Math.round(Math.random() * (state.active.range - 1) + 1)      
+      function randomNumbers(min: number, max: number) {
+        return Math.floor(Math.random() * (max - min) + min)
+      }
+
+      selectedRandomNumbers();
+      function selectedRandomNumbers() {
+        if (state.selectedNumbers.length < state.active['max-number']) {
+          const random = randomNumbers(1, state.active.range);
+          if (!state.selectedNumbers.includes(random)) {
+            state.selectedNumbers.push(random);
+          }
+          selectedRandomNumbers();
+        } else {
+          return;
+        }
+      }
+      /*for (let i = 0; i < missingNumbers; i++) {
+        let randomNumbers = Math.floor(Math.random() * (state.active.range - 1) + 1)      
         while (state.selectedNumbers.includes(randomNumbers)) {
           randomNumbers = Math.round(Math.random() * (state.active.range - 1) + 1)
         }
         state.selectedNumbers.push(randomNumbers)
-      }
+      }*/
+    },
+    clearGame (state) {
+      state.selectedNumbers = [];
     },
     addItemOnCart (state) {
       const game = {
@@ -99,7 +115,8 @@ const cartSlice = createSlice({
         name: state.active.name,
         price: state.active.price,
         color: state.active.color,        
-        numbers: state.selectedNumbers
+        numbers: state.selectedNumbers,
+        date: +new Date()
       }
 
       state.totalPrice = state.totalPrice + state.active.price;
@@ -111,7 +128,7 @@ const cartSlice = createSlice({
       state.selectedNumbers.sort((a, b) => a - b);
 
       if (state.active['max-number'] > state.selectedNumbers.length) {
-        return alert(`Still need to select ${missingNumbers} numbers!`);
+        return alert(`Still need to select ${missingNumbers} number${missingNumbers > 1 ? 's' : ''}!`);
       } else {
         return alert ("The maximum quantity of numbers has already been selected!");
       }
@@ -127,11 +144,11 @@ const cartSlice = createSlice({
     },
     saveGame (state) {
       if (state.totalPrice >= state.minCartValue) {
-        state.savedGames = [...state.savedGames, ...state.games];
+        state.games.forEach(game => state.savedGames.push(game));
         state.games = [];
         state.totalPrice = 0;
       } else {
-        return alert (`The minimum cart value to save the bet is R$${state.minCartValue}`);
+        return alert (`The minimum cart value to save the bet is R$30,00`);
       }
     }
   },

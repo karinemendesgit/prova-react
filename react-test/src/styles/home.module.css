@@ -1,70 +1,11 @@
-.header {
-  font-style: italic;    
-  border-bottom: 2px solid #EBEBEB;
-  height: 76px;
-  color: #707070;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.header h1 {
-  font-size: 20px;    
-}
-
-.header h1:hover {
-  cursor: pointer;
-}
-
-.header strong {
-  font-size: 44px;
-}
-
-.head1 {
-  display: flex;
-  gap: 74px;
-  margin-left: 130px;
-  align-items: center;
-}
-
-.tgl {
-  border-bottom: 7px solid #B5C401;
-  border-radius: 6px;
-  width: 107px;
-  height: 79px;
-  display: flex;    
-}
-
-.tgl strong {
-  margin-left: 11px;
-  font-size: 44px;
-  margin-top: 15px;
-}
-
-.head2 {
-  display: flex;
-  align-items: center;
-  gap: 40px;
-}
-
-.logout a {
-  text-decoration: none;
-  color: #707070;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-left: 57px;
-  margin-right: 199px;
-}
-
 .home {
   color: #868686;
   font-style: italic;
   margin-top: 71px;
   margin-left: 130px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  height: 100vh;
 }
 
 .home h3 {
@@ -79,13 +20,14 @@
 .rigthSide {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .firstLine {
   display: flex;
-  align-items: center;
-  height: 571px;
+  width: 700px;
   gap: 15px;
+  align-items: center;
 }
 
 .buttonsHome {

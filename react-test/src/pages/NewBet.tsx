@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
 import { cartActions } from "../store/cart";
 
+import api from '../games.json';
 import cartIcon from "../assets/cart.svg";
 import trashIcon from "../assets/trash.svg";
 import classes from "../styles/newbet.module.css";
@@ -16,11 +17,16 @@ const NewBet: React.FC = () => {
   const betSelected = useSelector((state: RootStateOrAny) => state.cart.active);
   const games = useSelector((state: RootStateOrAny) => state.cart.games);
   const totalPrice = useSelector((state: RootStateOrAny) => state.cart.totalPrice);
-
-  let numbers: number[] = [];
-
-  for (let i = 1; i <= betSelected; i++) {
-    numbers.push(i);
+  const [ selectedGame, setSelectedGame ] = useState(0)
+  
+  const dataGame = useMemo(() => api.types[selectedGame], [selectedGame])
+  
+  const getNumbers = () => {
+    let numbers: number[] = [];
+    for (let i = 1; i <= dataGame.range; i++) {
+      numbers.push(i);
+    }
+    return numbers;
   }
 
   function selectGame (name:string) {
@@ -44,7 +50,7 @@ const NewBet: React.FC = () => {
   }
 
   function saveGame () {
-    dispatch(cartActions.saveGame);
+    dispatch(cartActions.saveGame());
   }
 
   return (
@@ -53,8 +59,7 @@ const NewBet: React.FC = () => {
       <main className={classes.newBet}>
         <div className={classes.rightSideNB}>
           <div className={classes.title}>
-            <p><b>NEW BET</b> FOR </p>
-            <p>{betSelected.name}</p>
+            <p><b>NEW BET</b> FOR {dataGame.type.toUpperCase()}</p>
           </div>
           <h3 className={classes.textNB}>Choose a game</h3>
           <div className={classes.buttonsNB}>
@@ -64,15 +69,14 @@ const NewBet: React.FC = () => {
           </div>
           <div>
             <h3 className={classes.textNB}><b>Fill your bet</b>
-            <br/><span>{betSelected.description}</span>
+            <br/><span>{dataGame.description}</span>
             </h3>
           </div>        
-          <div>
-            {numbers.map((number: number) => (
-              <div className={classes.numbers}>
-                <button>number = {number}</button>
-              </div>
+          <div className={classes.numbers}>
+            {getNumbers().map((number: number) => (
+              <button>{number}</button>
             ))}
+            
           </div>
           <div className={classes.betButtons}>
             <div>
