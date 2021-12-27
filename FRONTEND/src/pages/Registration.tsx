@@ -1,6 +1,9 @@
 import { useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { authActions } from "../store/auth";
+import api from "../services/api";
+
 import Sidebar from "../components/Sidebar";
 import classes from "../styles/registration.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -12,13 +15,37 @@ const Registration: React.FC = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const registerHandler = async (event:any) => {
+    event.preventDefault();
+    if (nameRef && emailRef && passwordRef) {
+      dispatch(authActions.login({email: emailRef, password: passwordRef}));
+    }
+    
+    try {
+      const response = await fetch(`${api}/user/create`, {
+        method: 'POST',
+        body: JSON.stringify(event),
+        headers: { 'Content-Type': 'application/json'},
+      });
+  
+      const dados = await response.json();
+  
+      if (!response.ok) {
+        throw new Error (dados);
+      }
+      navigate('/login');
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <div className={classes.container}>
       <Sidebar/>
       <div className={classes.registration}>
         <h3>Registration</h3>
         <div className={classes.containerRegistration}>
-          <form>
+          <form onSubmit={registerHandler}>
             <div className={classes.inputRegistration}>
               <input type="text" name="" id="" placeholder="Name" ref={nameRef} required/>
             </div>

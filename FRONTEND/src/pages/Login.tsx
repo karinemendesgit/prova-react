@@ -1,22 +1,44 @@
 import { useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "../store/auth";
+import api from "../services/api";
+
 import Sidebar from "../components/Sidebar";
 import classes from "../styles/login.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { authActions } from "../store/auth";
 
 const Login: React.FC = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
-  const location = useLocation();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const loginHandler = (event:any) => {
+  
+  const loginHandler = async (event:any) => {
     event.preventDefault();
-    //dispatch(authActions.login());
+    if (emailRef && passwordRef) {
+      dispatch(authActions.login({email: emailRef, password: passwordRef}));
+    }
+    
+    try {
+      const response = await fetch(`${api}/login`, {
+        method: 'POST',
+        body: JSON.stringify(event),
+        headers: { 'Content-Type': 'application/json'},
+      });
+  
+      const dados = await response.json();
+  
+      if (!response.ok) {
+        throw new Error (dados);
+      }
+      navigate('/home');
+    } catch (error) {
+      console.log(error);
+    }
   }
+  
   return (
     <div className={classes.container}>
       <Sidebar/>
