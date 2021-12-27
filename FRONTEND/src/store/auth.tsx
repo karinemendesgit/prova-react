@@ -1,19 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { emailValidation, passwordValidation } from '../utils/login-validations';
 
 interface User {
   name: string,
   email: string,
   password: string,
-  isAuthenticated: boolean,
 }
 
 type Auth = {
   users: User[],  
+  isAuthenticated: boolean,
   userAuthenticated: User | null
 }
 
 const initialState: Auth = {
   users: [],
+  isAuthenticated: false,
   userAuthenticated: null 
 };
 
@@ -21,32 +23,45 @@ const authSlice = createSlice({
   name: 'login',
   initialState,
   reducers: {
-    createAccount (state, action) {
-      const {
-        name: username,
-        email: usermail,
-        password: userPassword
-      } = action.payload;
-      if (username && usermail && userPassword) {
-        state.users.push({
-          name: username,
-          email: usermail,
-          password: userPassword,
-          isAuthenticated: true
-        });
-      }
-    },
     login (state, action) {
       const { email, password } = action.payload;
-      const userIsLogin = state.users.find((user: User) => user.email === email);
-
-      if(userIsLogin && userIsLogin.password === password) {
-
+      if (email && password) {
+        const userIsLogin = state.users.find((user: User) => user.email === email);
+        if(userIsLogin && userIsLogin.password === password) {
+          state.isAuthenticated = true;
+          state.userAuthenticated = userIsLogin;
+          return state;
+        }
       }
-
+    },
+    createAccount (state, action) {
+      const {
+        name,
+        email,
+        password
+      } = action.payload;
+      const userFound = state.users.some(user => {
+        return email === user.email;
+      })
+      if (!userFound) {
+        if (name && email && password) {
+          if (emailValidation(email) && passwordValidation(password)) {
+            state.users.push({
+              name,
+              email,
+              password,
+            });
+          }
+        }
+      }
+      return state;
+    },
+    resetPassword (state, action) {
+      const password = action.payload;
     },
     logout (state) {
-      //state.isAuthenticated = false;
+      state.isAuthenticated = false;
+      state.userAuthenticated = null;
     }
   }
 })
