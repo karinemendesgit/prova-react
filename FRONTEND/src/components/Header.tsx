@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import classes from "../styles/header.module.css";
@@ -10,9 +10,12 @@ const Header: React.FC = () => {
   const location = useLocation();
   const path = location.pathname;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const logoutHandler = () => {
     dispatch(authActions.logout())
+    localStorage.removeItem("token");
+    navigate('/');
   }
 
   return (

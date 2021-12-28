@@ -56,7 +56,7 @@ const Registration: React.FC = () => {
               <input type="password" name="" id="" placeholder="Password" ref={passwordRef} required/>
             </div>
           </form>
-          <div className={classes.buttonRegistration}>
+          <div className={classes.buttonRegistration} onClick={registerHandler}>
             <h3>Register</h3>
             <FontAwesomeIcon icon={faArrowRight}/>
           </div>
