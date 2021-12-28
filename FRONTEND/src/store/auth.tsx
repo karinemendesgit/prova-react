@@ -57,7 +57,7 @@ const authSlice = createSlice({
       return state;
     },
     resetPassword (state, action) {
-      const password = action.payload;
+      
     },
     logout (state) {
       state.isAuthenticated = false;

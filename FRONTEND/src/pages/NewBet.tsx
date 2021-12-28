@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
 import { cartActions } from "../store/cart";
 
-import api from '../games.json';
+import api from '../services/games.json';
 import cartIcon from "../assets/cart.svg";
 import trashIcon from "../assets/trash.svg";
 import classes from "../styles/newbet.module.css";

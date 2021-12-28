@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef , FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/auth";
@@ -15,7 +15,7 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   
-  const loginHandler = async (event:any) => {
+  const loginHandler = async (event: FormEvent) => {
     event.preventDefault();
     if (emailRef && passwordRef) {
       dispatch(authActions.login({email: emailRef, password: passwordRef}));
@@ -47,13 +47,16 @@ const Login: React.FC = () => {
         <div className={classes.containerLogin}>
           <form onSubmit={loginHandler}>
             <div className={classes.inputLogin}>
-              <input type="email" name="" id="" placeholder="Email" ref={emailRef} required/>
+              <input 
+              type="email" 
+              placeholder="Email" 
+              ref={emailRef} 
+              required/>
             </div>
             <div className={classes.inputLogin}>
               <input 
               type="password" 
               placeholder="Password"
-              //value={} 
               ref={passwordRef} 
               required/>
             </div>
@@ -61,7 +64,8 @@ const Login: React.FC = () => {
           <Link to="/reset-password">
             <p className={classes.questionLogin}>I forget my password</p>
           </Link>
-          <div className={classes.buttonLogin}>
+          <div className={classes.buttonLogin} onClick={loginHandler}>
+            
             <h3>Log In</h3>
             <FontAwesomeIcon icon={faArrowRight}/>
           </div>
