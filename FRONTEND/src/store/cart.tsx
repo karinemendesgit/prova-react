@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 
 interface BetCart {
   name: string,
@@ -80,13 +81,11 @@ const cartSlice = createSlice({
       }) 
     },
     completeGame(state) {
-      //let missingNumbers = state.active['max-number'] - state.selectedNumbers.length;
-
-      function randomNumbers(min: number, max: number) {
-        return Math.floor(Math.random() * (max - min) + min)
-      }
-
       selectedRandomNumbers();
+      function randomNumbers(min: number, max: number) {
+        return Math.floor(Math.random() * (max - min) + min);
+      }
+      
       function selectedRandomNumbers() {
         if (state.selectedNumbers.length < state.active['max-number']) {
           const random = randomNumbers(1, state.active.range);
@@ -98,13 +97,6 @@ const cartSlice = createSlice({
           return;
         }
       }
-      /*for (let i = 0; i < missingNumbers; i++) {
-        let randomNumbers = Math.floor(Math.random() * (state.active.range - 1) + 1)      
-        while (state.selectedNumbers.includes(randomNumbers)) {
-          randomNumbers = Math.round(Math.random() * (state.active.range - 1) + 1)
-        }
-        state.selectedNumbers.push(randomNumbers)
-      }*/
     },
     clearGame (state) {
       state.selectedNumbers = [];
@@ -128,9 +120,9 @@ const cartSlice = createSlice({
       state.selectedNumbers.sort((a, b) => a - b);
 
       if (state.active['max-number'] > state.selectedNumbers.length) {
-        return alert(`Still need to select ${missingNumbers} number${missingNumbers > 1 ? 's' : ''}!`);
+        toast.warning(`Still need to select ${missingNumbers} number${missingNumbers > 1 ? 's' : ''}!`);
       } else {
-        return alert ("The maximum quantity of numbers has already been selected!");
+        toast.error ("The maximum quantity of numbers has already been selected!");
       }
     },
     removeItemFromCart (state, action) {
@@ -148,7 +140,7 @@ const cartSlice = createSlice({
         state.games = [];
         state.totalPrice = 0;
       } else {
-        return alert (`The minimum cart value to save the bet is R$30,00`);
+        toast.warning (`The minimum cart value to save the bet is R$30,00`);
       }
     }
   },
