@@ -1,5 +1,5 @@
 import { ButtonHTMLAttributes } from 'react';
-import { Button } from './GameButtonStyle'
+import { Button } from './BetTypeButtonStyle'
 
 interface GameButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   text: string,
