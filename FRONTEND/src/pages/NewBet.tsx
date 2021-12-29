@@ -10,14 +10,15 @@ import classes from "../styles/newbet.module.css";
 import Header from "../components/Header";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import GameButton from '../components/BetTypeButton';
 
 const NewBet: React.FC = () => {
   const dispatch = useDispatch();
   const betCart = useSelector((state: RootStateOrAny) => state.cart.types);
-  const betSelected = useSelector((state: RootStateOrAny) => state.cart.active);
+  const betSelected = useSelector((state: RootStateOrAny) => state.cart.selectedNumbers);
   const games = useSelector((state: RootStateOrAny) => state.cart.games);
   const totalPrice = useSelector((state: RootStateOrAny) => state.cart.totalPrice);
-  const [ selectedGame, setSelectedGame ] = useState(0)
+  const [ selectedGame, setSelectedGame ] = useState(0);
   
   const dataGame = useMemo(() => api.types[selectedGame], [selectedGame])
   
