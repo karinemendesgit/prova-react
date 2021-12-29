@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useSelector, RootStateOrAny } from 'react-redux';
 
 import classes from "../styles/home.module.css";
@@ -7,7 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import Header from "../components/Header";
 import api from '../services/games.json'
-import BetTypeButton from "../components/GameButton";
+import BetTypeButton from "../components/BetTypeButton";
+import GameListItem from "../components/GameListItem";
 
 const Home: React.FC = () => {
   const [ betSelected, setBetSelected ] = useState<number[]>([]);
@@ -36,20 +37,27 @@ const Home: React.FC = () => {
   function listOfGames(game:GameProps[]) {
     return game.map((game, id) => (
       <li key={id}>
-
+        <GameListItem 
+          type={game.type}
+          numbers={game.numbers}
+          date={game.date}
+        />
       </li>
     ))
   }
 
   const buttonFilters = gameData.map((game, id) => (
     <li key={id}>
-      <BetTypeButton text={game.type} textColor={game.color} selected={isSelected(id)}
-      onClick={() => handleFilter(id)} />
+      <BetTypeButton 
+        text={game.type} 
+        textColor={game.color} 
+        selected={isSelected(id)}
+        onClick={() => handleFilter(id)} />
     </li>
   ));
 
   const betGames = betSelected.map((number) => gameData[number]);
-  const gameFilter = savedGames.filter((game: any) => game.some((item: any) => item.type === game.type));
+  const gameFilter = savedGames.filter((game: any) => betGames.some((item: any) => item.type === game.type));
   const filteredGames = listOfGames(gameFilter);
   const allBetGames = listOfGames(savedGames);
   return (
@@ -65,10 +73,11 @@ const Home: React.FC = () => {
               <p>Filters</p>
             </div>
             <div className={classes.buttonsHome}>
-              <button className={classes.lotofacil}>Lotofácil</button>
-              <button className={classes.megasena}>Mega-Sena</button>
-              <button className={classes.lotomania}>Lotomania</button>
+              {buttonFilters}
             </div>
+          </div>
+          <div>
+            {betSelected.length > 0 ? filteredGames : allBetGames}
           </div>
         </div>
         <div className={classes.leftSide}>
