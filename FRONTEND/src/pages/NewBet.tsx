@@ -29,9 +29,9 @@ const NewBet: React.FC = () => {
     return numbers;
   }
 
-  function selectGame (name:string) {
+  /*function selectGame (name:string) {
     dispatch(cartActions.selectGame(name));
-  }
+  }*/
 
   function completeGame () {
     dispatch(cartActions.completeGame());
