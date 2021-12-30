@@ -6,7 +6,7 @@ import BetTypeButton from './BetTypeButton';
 import NewBetButtonsStyle  from './NewBetButtonsStyle';
 
 interface GamesListProps {
-  selectedGame: number,
+  selectedGame: number;
   setSelectedGame: (game: number) => void
 }
 

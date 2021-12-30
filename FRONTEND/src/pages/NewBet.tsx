@@ -1,8 +1,9 @@
 import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
-import { cartActions } from "../store/cart";
+import { ToastContainer } from 'react-toastify';
 
+import { cartActions } from "../store/cart";
 import api from '../services/games.json';
 import cartIcon from "../assets/cart.svg";
 import trashIcon from "../assets/trash.svg";
@@ -11,11 +12,19 @@ import Header from "../components/Header";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import NewBetButtons from '../components/NewBetButtons';
-import NumbersButton from "../components/NumbersButtons";
+import NumbersButtons from "../components/NumbersButtons";
 
 const NewBet: React.FC = () => {
+  interface BetsProps {
+    id: number;
+    name: string;
+    price: number;
+    color: string;
+    numbers: number[];
+    date: string
+  }
+  
   const dispatch = useDispatch();
-  const bets = useSelector((state: RootStateOrAny) => state.cart.types);
   const betSelected = useSelector((state: RootStateOrAny) => state.cart.active);
   const games = useSelector((state: RootStateOrAny) => state.cart.games);
   const totalPrice = useSelector((state: RootStateOrAny) => state.cart.totalPrice);
@@ -29,10 +38,6 @@ const NewBet: React.FC = () => {
       numbers.push(i);
     }
     return numbers;
-  }
-
-  function selectGame (name:string) {
-    dispatch(cartActions.selectGame(name));
   }
 
   function completeGame () {
@@ -74,13 +79,12 @@ const NewBet: React.FC = () => {
           </div>        
           <div className={classes.numbers}>
             {getNumbers().map((number: number) => (
-              <NumbersButton
+              <NumbersButtons
                 key={number}
-                color={dataGame.color}
+                color={betSelected.color}
                 number={number}
               />
             ))}
-            
           </div>
           <div className={classes.betButtons}>
             <div>
@@ -106,11 +110,11 @@ const NewBet: React.FC = () => {
           </div>
         </div>
         <div className={classes.cart}>
-            <h2><b>CART</b></h2>
+            <h2>CART</h2>
             <div>          
               <div>
                 {games.length > 0 ? (
-                  games.map((game: any) => {
+                  games.map((game: BetsProps) => {
                     <div>
                       <div>
                         <button onClick={removeItemFromCart}>
@@ -142,6 +146,17 @@ const NewBet: React.FC = () => {
           </div>
         </div>
       </main>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 }

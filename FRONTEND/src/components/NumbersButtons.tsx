@@ -20,13 +20,13 @@ const NumbersButton: React.FC<NumberButtonProps> = ({color, number}) => {
     } else {
       setSelected(false);
     }
-  }, [numbers, number])
+  }, [numbers, number]);
 
   function handleClickNumber (number:number) {
     dispatch(cartActions.addSelectNumber(number))
   }
   return (
-    <Number selected={selected} numberColor={color} onClick={() => handleClickNumber(number)} >{number}</Number>
+    <Number selected={selected} color={color} onClick={() => handleClickNumber(number)} >{number}</Number>
   );
 }
 

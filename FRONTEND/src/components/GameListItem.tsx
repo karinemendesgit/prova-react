@@ -2,9 +2,9 @@ import api from '../services/games.json';
 import { ListContainer, StyledDiv, ListItems} from './GameListItemStyle';
 
 interface GameItemProp {
-  numbers: number[],
-  date: number,
-  type: string,
+  numbers: number[];
+  date: number;
+  type: string;
 }
 
 function GameListItem(props:GameItemProp): JSX.Element {
