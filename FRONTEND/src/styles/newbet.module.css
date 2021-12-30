@@ -39,57 +39,6 @@
   gap: 20px;  
 }
 
-.buttonsNB button {
-  height: 34px;
-  width: 113px;
-  margin-bottom: 8px;
-}
-
-.lotofacil {
-  background: #FFFFFF 0% 0% no-repeat padding-box;
-  border: 2px solid #7F3992;
-  border-radius: 100px;
-  color: #7F3992;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.lotofacil:active {
-  background: #7F3992 0% 0% no-repeat padding-box;
-  border: 2px solid #7F3992;
-  color: #FFFFFF;
-}
-
-.megasena {
-  background: #FFFFFF 0% 0% no-repeat padding-box;
-  border: 2px solid #01AC66;
-  border-radius: 100px;
-  color: #01AC66;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.megasena:active {
-  background: #01AC66 0% 0% no-repeat padding-box;
-  border: 2px solid #01AC66;
-  color: #FFFFFF;
-}
-
-.lotomania {
-  background: #FFFFFF 0% 0% no-repeat padding-box;
-  border: 2px solid #F79C31;
-  border-radius: 100px;
-  font-size: 14px;
-  font-weight: bold;
-  color: #F79C31;
-}
-
-.lotomania:active {
-  background: #F79C31 0% 0% no-repeat padding-box;
-  border: 2px solid #F79C31;
-  color: #FFFFFF;
-}
-
 .numbers {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
@@ -105,7 +54,6 @@
   font-weight: bold;
   color: #FFFFFF;
   margin-top: 20px;
-  
   border: none;
 }
 

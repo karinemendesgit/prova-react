@@ -3,30 +3,33 @@ import  { useDispatch } from 'react-redux';
 import api from '../services/games.json';
 import { cartActions } from '../store/cart';
 import BetTypeButton from './BetTypeButton';
+import NewBetButtonsStyle  from './NewBetButtonsStyle';
 
 interface GamesListProps {
-  gameSelected: number,
-  setGameSelected: (game: number) => void
+  selectedGame: number,
+  setSelectedGame: (game: number) => void
 }
 
-function NewBetButtons({gameSelected, setGameSelected}: GamesListProps): JSX.Element {
+function NewBetButtons({selectedGame, setSelectedGame}: GamesListProps): JSX.Element {
   const dispatch = useDispatch();
 
   function handleSelectBet(index:number) {
-    setGameSelected(index);
+    setSelectedGame(index);
     dispatch(cartActions.clearGame());
   }
 
-  const betGames = api.types.map((bet, index) => {
+  const betGames = api.types.map((bet, index) => (
     <li key={bet.type}>
       <BetTypeButton 
         text={bet.type} 
         textColor={bet.color} 
-        selected={gameSelected === index}
+        selected={selectedGame === index}
         onClick={() => handleSelectBet(index)} />
     </li>
-  })
+  ))
   return(
-    <div>{betGames}</div>
+    <NewBetButtonsStyle>{betGames}</NewBetButtonsStyle>
   )
 }
+
+export default NewBetButtons
