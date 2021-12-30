@@ -80,6 +80,28 @@ const cartSlice = createSlice({
         }
       }) 
     },
+    addSelectNumber(state, action) {
+      const newNumber = +action.payload;
+      let plusNumbers = [...state.selectedNumbers];
+
+      const existentNumber =state.selectedNumbers.includes(newNumber);
+
+      function fullGame() {
+        return state.selectedNumbers.length === state.active['max-number'];
+      }
+
+      if (existentNumber) {
+        const index = state.selectedNumbers.indexOf(newNumber);
+        plusNumbers.splice(index, 1);
+        state.selectedNumbers = plusNumbers
+      } else if (!existentNumber && !fullGame()) {
+        plusNumbers = [...state.selectedNumbers, newNumber];
+        state.selectedNumbers = plusNumbers
+      } else {
+        toast.error("The bet's selects numbers are completed. Add your game to cart.")
+        return;
+      }
+    },
     completeGame(state) {
       selectedRandomNumbers();
       function randomNumbers(min: number, max: number) {

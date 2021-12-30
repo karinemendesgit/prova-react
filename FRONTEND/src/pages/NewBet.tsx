@@ -10,12 +10,13 @@ import classes from "../styles/newbet.module.css";
 import Header from "../components/Header";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import GameButton from '../components/BetTypeButton';
+import NewBetButtons from '../components/NewBetButtons';
+import NumbersButton from "../components/NumbersButtons";
 
 const NewBet: React.FC = () => {
   const dispatch = useDispatch();
-  const betCart = useSelector((state: RootStateOrAny) => state.cart.types);
-  const betSelected = useSelector((state: RootStateOrAny) => state.cart.selectedNumbers);
+  const bets = useSelector((state: RootStateOrAny) => state.cart.types);
+  const betSelected = useSelector((state: RootStateOrAny) => state.cart.active);
   const games = useSelector((state: RootStateOrAny) => state.cart.games);
   const totalPrice = useSelector((state: RootStateOrAny) => state.cart.totalPrice);
   const [ selectedGame, setSelectedGame ] = useState(0);
@@ -30,9 +31,9 @@ const NewBet: React.FC = () => {
     return numbers;
   }
 
-  /*function selectGame (name:string) {
+  function selectGame (name:string) {
     dispatch(cartActions.selectGame(name));
-  }*/
+  }
 
   function completeGame () {
     dispatch(cartActions.completeGame());
@@ -64,9 +65,7 @@ const NewBet: React.FC = () => {
           </div>
           <h3 className={classes.textNB}>Choose a game</h3>
           <div className={classes.buttonsNB}>
-            <button className={classes.lotofacil}>Lotofácil</button>
-            <button className={classes.megasena}>Mega-Sena</button>
-            <button className={classes.lotomania}>Lotomania</button>
+            <NewBetButtons selectedGame={selectedGame} setSelectedGame={setSelectedGame} />
           </div>
           <div>
             <h3 className={classes.textNB}><b>Fill your bet</b>
@@ -75,7 +74,11 @@ const NewBet: React.FC = () => {
           </div>        
           <div className={classes.numbers}>
             {getNumbers().map((number: number) => (
-              <button>{number}</button>
+              <NumbersButton
+                key={number}
+                color={dataGame.color}
+                number={number}
+              />
             ))}
             
           </div>
