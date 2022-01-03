@@ -1,18 +1,20 @@
 import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 
 import { cartActions } from "../store/cart";
 import api from '../services/games.json';
 import cartIcon from "../assets/cart.svg";
-import trashIcon from "../assets/trash.svg";
+import "react-toastify/dist/ReactToastify.css";
 import classes from "../styles/newbet.module.css";
 import Header from "../components/Header";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import NewBetButtons from '../components/NewBetButtons';
 import NumbersButtons from "../components/NumbersButtons";
+import { Cart } from "../components/Cart";
+import NumbersButton from "../components/NumbersButtons";
 
 const NewBet: React.FC = () => {
   interface BetsProps {
@@ -32,13 +34,28 @@ const NewBet: React.FC = () => {
   
   const dataGame = useMemo(() => api.types[selectedGame], [selectedGame])
   
-  const getNumbers = () => {
-    let numbers: number[] = [];
-    for (let i = 1; i <= dataGame.range; i++) {
-      numbers.push(i);
+    const handleSelectNumber = (index: number) => {
+      try {
+        dispatch(cartActions.addNumber({ index, max: dataGame["max-number"]}))
+      } catch (error:any) {
+        toast.error(error.message)
+      }
     }
-    return numbers;
-  }
+
+    const getNumbers = () => {
+      let numbers = [];
+      for (let i = 1; i <= dataGame.range; i++) {
+        numbers.push(
+          <NumbersButton
+            key={i}
+            index={('0' + i).slice(-2)}
+            color={dataGame.color}
+            onClick={() => {handleSelectNumber(i)}}
+          />
+        );
+      } return numbers;
+    }
+    
 
   function completeGame () {
     dispatch(cartActions.completeGame());
@@ -50,10 +67,6 @@ const NewBet: React.FC = () => {
 
   function addItemOnCart () {
     dispatch(cartActions.addItemOnCart());
-  }
-
-  function removeItemFromCart () {
-    dispatch(cartActions.removeItemFromCart);
   }
 
   function saveGame () {
@@ -78,13 +91,7 @@ const NewBet: React.FC = () => {
             </h3>
           </div>        
           <div className={classes.numbers}>
-            {getNumbers().map((number: number) => (
-              <NumbersButtons
-                key={number}
-                color={betSelected.color}
-                number={number}
-              />
-            ))}
+            {getNumbers()}
           </div>
           <div className={classes.betButtons}>
             <div>
@@ -110,34 +117,7 @@ const NewBet: React.FC = () => {
           </div>
         </div>
         <div className={classes.cart}>
-            <h2>CART</h2>
-            <div>          
-              <div>
-                {games.length > 0 ? (
-                  games.map((game: BetsProps) => {
-                    <div>
-                      <div>
-                        <button onClick={removeItemFromCart}>
-                          <img src={trashIcon}/>
-                        </button>
-                      </div>      
-                      <div>
-                        <p>
-                          {game.numbers.toString().replace(/,/g, ', ')}
-                        </p>
-                        <div>
-                          <p>{game.name}</p>
-                          <span>{game.price}</span>
-                        </div>
-                      </div>
-                    </div>
-                  })
-                ) : (<p>Empty Cart</p>)}
-              </div>
-            </div>
-            <div className={classes.total}>
-              <h2>CART <p>TOTAL: {totalPrice}</p></h2> 
-            </div>               
+          <Cart/>           
           <div>
             <Link to="/new-bet" onClick={saveGame}>
               <h1>Save</h1>
@@ -149,13 +129,11 @@ const NewBet: React.FC = () => {
       <ToastContainer
         position="top-right"
         autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
+        hideProgressBar={true}
+        newestOnTop
         closeOnClick
         rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
+        theme="colored"
       />
     </div>
   );

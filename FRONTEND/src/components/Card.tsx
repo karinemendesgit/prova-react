@@ -1,5 +1,8 @@
 import { cartActions } from "../store/cart";
 import trashIcon from '../assets/trash.svg';
+import React from "react";
+import { useDispatch } from "react-redux";
+import { formatedPrice } from '../utils/cart-facilities';
 
 interface CardProps {
   game: {
@@ -12,7 +15,14 @@ interface CardProps {
   };
 }
 
-export function Cart({game: CardProps}): JSX.Element {
+export const Card: React.FC<CardProps> = ( {game} ) => {
+  const dispatch = useDispatch();
+  const price = formatedPrice(game.price)
+
+  function removeItemFromCart () {
+    dispatch(cartActions.removeItemFromCart(game.id));
+  }
+
   return (
     <div>
       <div>
@@ -27,6 +37,7 @@ export function Cart({game: CardProps}): JSX.Element {
           <div>
             <p>{game.name}</p>
             <span>{game.price}</span>
+            {price}
           </div>
         </div>
     </div>

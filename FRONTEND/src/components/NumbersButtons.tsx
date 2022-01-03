@@ -1,32 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import { produceWithPatches } from '@reduxjs/toolkit/node_modules/immer';
+import React, { ButtonHTMLAttributes, useEffect, useState } from 'react';
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux';
 
 import { cartActions } from '../store/cart';
 import Number from './NumbersButtonsStyle';
 
-interface NumberButtonProps {
+interface NumberButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>{
+  index: string;
   color: string;
-  number: number;
+  onClick: () => void;
 }
 
-const NumbersButton: React.FC<NumberButtonProps> = ({color, number}) => {
+function NumbersButton (props : NumberButtonProps): JSX.Element  {
   const dispatch = useDispatch();
-  const [ selected, setSelected] = useState(false);
+  let selected: boolean = false;
   const numbers = useSelector((state: RootStateOrAny) => state.cart.selectedNumbers);
-
-  useEffect(() => {
+  if (numbers.includes(+props.index)) {
+    selected = true;
+  }
+  /*useEffect(() => {
     if(numbers.includes(number)) {
       setSelected(true);
     } else {
       setSelected(false);
     }
-  }, [numbers, number]);
+  }, [numbers, number]);*/
 
-  function handleClickNumber (number:number) {
+  /*function handleClickNumber (number:number) {
     dispatch(cartActions.addSelectNumber(number))
-  }
+  }*/
   return (
-    <Number selected={selected} color={color} onClick={() => handleClickNumber(number)} >{number}</Number>
+    <Number selected={selected} numberColor={props.color} {...props}>{props.index}</Number>
   );
 }
 

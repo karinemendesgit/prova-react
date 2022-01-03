@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { formatedPrice } from '../utils/cart-facilities';
 import { useEffect } from "react";
+import { Card } from './Card';
 
 interface gameProps {
   id: number;
@@ -33,16 +34,16 @@ export function Cart(): JSX.Element {
     <h2>CART</h2>
       <div>          
         <div>
-                {gameContext.length > 0 ? (
-                  gameContext.map((game: gameProps) => {
-                    
-                  })
-                ) : (<p>Empty Cart</p>)}
-              </div>
-            </div>
-            <div >
-              <h2>CART <p>TOTAL: {price}</p></h2> 
-            </div>               
+          {gameContext.length > 0 ? (
+            gameContext.map((game: gameProps) => {
+              <Card key={game.id} game={game}/>
+            })
+          ) : (<p>Empty Cart</p>)}
+        </div>
+      </div>
+      <div >
+        <h2>CART <p>TOTAL: {price}</p></h2> 
+      </div>               
   </>
-)
+  )
 }

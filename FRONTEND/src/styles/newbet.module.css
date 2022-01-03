@@ -45,18 +45,6 @@
   margin-bottom: 44px;
 }
 
-.numbers button {
-  background-color: #ADC0C4;
-  width: 63px;
-  height: 65px;
-  border-radius: 50%;
-  font-size: 20px;
-  font-weight: bold;
-  color: #FFFFFF;
-  margin-top: 20px;
-  border: none;
-}
-
 .betButtons {
   display: flex;
 }

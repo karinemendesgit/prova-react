@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 interface numbersProps {
-  selected?: boolean;
-  color: string;
+  selected: boolean;
+  numberColor: string;
 }
 
 const Number = styled.button<numbersProps> `
