@@ -2,21 +2,22 @@ import { createSlice } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 
 interface BetCart {
-  name: string,
-  description: string,
-  range: number,
-  price: number,
-  "max-number": number,
-  color: string,
-  selected: boolean
+  name: string;
+  description: string;
+  range: number;
+  price: number;
+  "max-number": number;
+  color: string;
+  selected: boolean;
 };
 
 interface betSave {
-  id: number,
-  name: string,
-  price: number, 
-  color: string,
-  numbers: number[],
+  id: number;
+  name: string;
+  price: number; 
+  color: string;
+  numbers: number[];
+  date: number;
 };
 
 interface InitialStateItems {
@@ -29,6 +30,7 @@ interface InitialStateItems {
   games: Array<betSave>;
   savedGames: Array<betSave>;
   filteredGames: Array<betSave>;
+  savedOk: boolean;
 }
 
 const initialState: InitialStateItems = {
@@ -48,7 +50,8 @@ const initialState: InitialStateItems = {
   quantity: 0,
   games: [],
   savedGames: [],
-  filteredGames: []
+  filteredGames: [],
+  savedOk: false
 };
 
 
@@ -131,7 +134,7 @@ const cartSlice = createSlice({
         color: state.active.color,        
         numbers: state.selectedNumbers,
         date: +new Date()
-      }
+      };
 
       state.totalPrice = state.totalPrice + state.active.price;
       state.games.push(game);
@@ -161,6 +164,7 @@ const cartSlice = createSlice({
         state.games.forEach(game => state.savedGames.push(game));
         state.games = [];
         state.totalPrice = 0;
+        state.savedOk = true;
       } else {
         toast.warning (`The minimum cart value to save the bet is R$30,00`);
       }
