@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
 import { toast, ToastContainer } from 'react-toastify';
 
@@ -12,29 +12,17 @@ import Header from "../components/Header";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import NewBetButtons from '../components/NewBetButtons';
-import NumbersButtons from "../components/NumbersButtons";
 import { Cart } from "../components/Cart";
 import NumbersButton from "../components/NumbersButtons";
 
 const NewBet: React.FC = () => {
-  interface BetsProps {
-    id: number;
-    name: string;
-    price: number;
-    color: string;
-    numbers: number[];
-    date: string
-  }
-  
   const dispatch = useDispatch();
-  const betSelected = useSelector((state: RootStateOrAny) => state.cart.active);
-  const games = useSelector((state: RootStateOrAny) => state.cart.games);
-  const totalPrice = useSelector((state: RootStateOrAny) => state.cart.totalPrice);
+  const navigate = useNavigate();
   const [ selectedGame, setSelectedGame ] = useState(0);
   
   const dataGame = useMemo(() => api.types[selectedGame], [selectedGame])
   
-    const handleSelectNumber = (index: number) => {
+    const selectNumber = (index: number) => {
       try {
         dispatch(cartActions.addNumber({ index, max: dataGame["max-number"]}))
       } catch (error:any) {
@@ -50,15 +38,17 @@ const NewBet: React.FC = () => {
             key={i}
             index={('0' + i).slice(-2)}
             color={dataGame.color}
-            onClick={() => {handleSelectNumber(i)}}
+            onClick={() => {selectNumber(i)}}
           />
         );
       } return numbers;
     }
-    
 
   function completeGame () {
-    dispatch(cartActions.completeGame());
+    dispatch(cartActions.completeGame({
+      max: dataGame["max-number"],
+      range: dataGame.range
+    }));
   }
 
   function clearGame () {
@@ -66,11 +56,21 @@ const NewBet: React.FC = () => {
   }
 
   function addItemOnCart () {
-    dispatch(cartActions.addItemOnCart());
+    dispatch(cartActions.addItemOnCart({
+      min: dataGame["max-number"],
+      price: dataGame.price,
+      type: dataGame.type
+    }));
   }
 
-  function saveGame () {
-    dispatch(cartActions.saveGame());
+  function saveCart() {
+    try {
+      dispatch(cartActions.saveGame());
+      navigate('/home')
+    } catch (error: any) {
+      toast.error(error.message);
+      return;
+    }
   }
 
   return (
@@ -118,8 +118,8 @@ const NewBet: React.FC = () => {
         </div>
         <div className={classes.cart}>
           <Cart/>           
-          <div>
-            <Link to="/new-bet" onClick={saveGame}>
+          <div onClick={saveCart}>
+            <Link to="/home">
               <h1>Save</h1>
               <FontAwesomeIcon icon={faArrowRight}/>
             </Link>

@@ -3,41 +3,40 @@ import trashIcon from '../assets/trash.svg';
 import React from "react";
 import { useDispatch } from "react-redux";
 import { formatedPrice } from '../utils/cart-facilities';
+import api from '../services/games.json';
 
 interface CardProps {
-  game: {
-    id: number;
-    color: string;
-    numbers: number[];
-    date: number;
-    price: number;
-    name: string
-  };
+  numbers: number[];
+  type: string;
+  id: number;
 }
 
-export const Card: React.FC<CardProps> = ( {game} ) => {
+export default function Card(props: CardProps): JSX.Element {
   const dispatch = useDispatch();
-  const price = formatedPrice(game.price)
+  const gameData = api.types.find((game) => game.type === props.type)
+  const price = formatedPrice(gameData!.price);
 
-  function removeItemFromCart () {
-    dispatch(cartActions.removeItemFromCart(game.id));
+  let numbers = props.numbers;
+  numbers = numbers.slice().sort((a, b) => a- b)
+
+  function handleRemoveItemFromCart () {
+    dispatch(cartActions.removeItemFromCart({id: props.id, price: gameData!.price}));
   }
 
   return (
     <div>
       <div>
-        <button onClick={removeItemFromCart}>
+        <button onClick={handleRemoveItemFromCart}>
           <img src={trashIcon}/>
         </button>
         </div>      
         <div>
           <p>
-          {game.numbers.toString().replace(/,/g, ', ')}
+          {numbers.join(', ')}
           </p>
           <div>
-            <p>{game.name}</p>
-            <span>{game.price}</span>
-            {price}
+            <p>{props.type}</p>
+            <span>{price}</span>
           </div>
         </div>
     </div>

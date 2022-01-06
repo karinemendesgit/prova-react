@@ -9,7 +9,7 @@ const Number = styled.button<numbersProps> `
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${props => (props.selected ? props.color : '#ADC0C4')};
+  background-color: ${props => (props.selected ? props.numberColor : '#ADC0C4')};
   width: 63px;
   height: 65px;
   border-radius: 50%;

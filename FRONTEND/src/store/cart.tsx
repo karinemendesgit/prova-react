@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { stat } from 'fs';
 import { toast } from 'react-toastify';
 import { NumberProps } from '../models/intefaces';
 
@@ -63,14 +64,14 @@ interface GameProps {
 }
 
 interface Games {
-  game: GameProps;
+  games: GameProps;
   cartGames: GameProps[];
   savedGames: GameProps[];
   totalPrice: number;
 }
 
 const initialState: Games = {
-  game: {
+  games: {
     id: -1,
     type: '',
     date: +new Date(),
@@ -91,14 +92,14 @@ const cartSlice = createSlice({
     },*/
     addNumber(state, action) {
       const data: NumberProps = action.payload;
-      if(!state.game.numbers.includes(data.index)) {
-        if (state.game.numbers.length < data.maxNumb) {
-          state.game.numbers.push(data.index)
+      if(!state.games.numbers.includes(data.index)) {
+        if (state.games.numbers.length < data.maxNumb) {
+          state.games.numbers.push(data.index)
         } else {
-          toast.error("max numvers")
+          toast.error("The max number of numbers has already been selected!")
         }
       } else {
-        state.game.numbers.splice(state.game.numbers.indexOf(data.index), 1) 
+        state.games.numbers.splice(state.games.numbers.indexOf(data.index), 1) 
       }
     },
     /*selectGame (state, action) {
@@ -144,10 +145,14 @@ const cartSlice = createSlice({
       }
     },*/
     completeGame(state, action) {
-      const data: {max: number; range: number; type: string} = action.payload;
-      
-      if (state.game.numbers.length === data.max) {
-        state.game.numbers = [];
+      const data: { 
+        max: number; 
+        range: number; 
+        type: string
+      } = action.payload; 
+
+      if (state.games.numbers.length === data.max) {
+        state.games.numbers = [];
       }
       
       selectedRandomNumbers();
@@ -156,10 +161,10 @@ const cartSlice = createSlice({
       }
       
       function selectedRandomNumbers() {
-        if (state.game.numbers.length < data.max) {
+        if (state.games.numbers.length < data.max) {
           const random = randomNumbers(1, data.range);
-          if (!state.game.numbers.includes(random)) {
-            state.game.numbers.push(random);
+          if (!state.games.numbers.includes(random)) {
+            state.games.numbers.push(random);
           }
           selectedRandomNumbers();
         } else {
@@ -168,12 +173,31 @@ const cartSlice = createSlice({
       }
     },
     clearGame (state) {
-      state.game.numbers = [];
+      state.games.numbers = [];
     },
-    addItemOnCart (state) {
-      const game = {
-        id: state.game.id,
-        name: state.game.type,
+    addItemOnCart (state, action) {
+      const data: { 
+        min: number; 
+        price: number; 
+        type: string
+      } = action.payload; 
+
+      const missingNumbers = data.min - state.games.numbers.length;
+
+      if (state.games.numbers.length < data.min) {
+        toast.warning(`Still need to select ${missingNumbers} number${missingNumbers > 1 ? 's' : ''}!`);
+      }
+
+      state.games.type = data.type;
+      state.games.id = state.cartGames.length;
+      state.games.date = +new Date();
+      state.cartGames.push(state.games);
+      state.totalPrice += data.price;
+      state.games = initialState.games;
+
+      /*const game = {
+        id: state.games.id,
+        name: state.games.type,
         price: state.active.price,
         color: state.active.color,        
         numbers: state.selectedNumbers,
@@ -192,19 +216,15 @@ const cartSlice = createSlice({
         toast.warning(`Still need to select ${missingNumbers} number${missingNumbers > 1 ? 's' : ''}!`);
       } else {
         toast.error ("The maximum quantity of numbers has already been selected!");
-      }
+      }*/
     },
     removeItemFromCart (state, action) {
-      const id = action.payload;
-      const existingItem = state.game.numbers.find(item => item.numbers === id);
-      state.totalPrice++;
-      if (existingItem) {
-        state.cartGames = state.savedGames.filter(item => item.id !== id);
-        state.totalPrice = state.totalPrice - existingItem.price;
-      }
+      const data: { id: number; price: number} = action.payload;
+      state.cartGames.splice(data.id, 1);
+      state.totalPrice -= data.price;
     },
     saveGame (state) {
-      if (state.totalPrice >= state.minCartValue) {
+      if (state.totalPrice >= 30) {
         state.cartGames.forEach(game => state.savedGames.push(game));
         state.cartGames = [];
         state.totalPrice = 0;
