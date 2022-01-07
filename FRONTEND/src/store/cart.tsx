@@ -1,60 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { stat } from 'fs';
 import { toast } from 'react-toastify';
-import { NumberProps } from '../models/intefaces';
-
-/*interface BetCart {
-  name: string;
-  description: string;
-  range: number;
-  price: number;
-  "max-number": number;
-  color: string;
-  selected: boolean;
-};
-
-interface betSave {
-  id: number;
-  name: string;
-  price: number; 
-  color: string;
-  numbers: number[];
-  date: number;
-};
-
-interface InitialStateItems {
-  minCartValue: number;
-  types: Array<BetCart>;
-  active: BetCart;
-  selectedNumbers: Array<number>;
-  totalPrice: number;
-  quantity: number;
-  games: Array<betSave>;
-  savedGames: Array<betSave>;
-  filteredGames: Array<betSave>;
-  savedOk: boolean;
-}
-
-const initialState: InitialStateItems = {
-  minCartValue: 0,
-  types: [],
-  active: {
-    name: '',
-    description: '',
-    range: 0,
-    price: 0,
-    "max-number": 0,
-    color: '',
-    selected: true
-  },
-  selectedNumbers: [],
-  totalPrice: 0,
-  quantity: 0,
-  games: [],
-  savedGames: [],
-  filteredGames: [],
-  savedOk: false
-};*/
 
 interface GameProps {
   type: string;
@@ -86,64 +31,23 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    /*replaceCart(state, action) {
-      state.minCartValue = action.payload.minCartValue;
-      state.types = action.payload.types;
-    },*/
     addNumber(state, action) {
-      const data: NumberProps = action.payload;
+      const data: { 
+        index: number; 
+        max: number
+      } = action.payload;
+
       if(!state.games.numbers.includes(data.index)) {
-        if (state.games.numbers.length < data.maxNumb) {
-          state.games.numbers.push(data.index)
+        if (state.games.numbers.length < data.max) {
+          state.games.numbers.push(data.index);
         } else {
           toast.error("The max number of numbers has already been selected!")
+          return;
         }
       } else {
-        state.games.numbers.splice(state.games.numbers.indexOf(data.index), 1) 
+        state.games.numbers.splice(state.games.numbers.indexOf(data.index), 1);
       }
     },
-    /*selectGame (state, action) {
-      const newItem = action.payload;
-      state.selectedNumbers = [];
-      state.types.map((game: BetCart) => {
-        if (game.name === newItem) {
-          state.active = {
-            name: game.name,
-            description: game.description,
-            range: game.range,
-            price: game.price,
-            "max-number": game['max-number'],
-            color: game.color,
-            selected: true
-          };
-          return game.selected = true;
-        } else {
-          return game.selected = false
-        }
-      }) 
-    },
-    addSelectNumber(state, action) {
-      const newNumber = +action.payload;
-      let plusNumbers = [...state.game.numbers];
-
-      const existentNumber =state.game.numbers.includes(newNumber);
-
-      function fullGame() {
-        return state.game.numbers.length === state.active['max-number'];
-      }
-
-      if (existentNumber) {
-        const index = state.game.numbers.indexOf(newNumber);
-        plusNumbers.splice(index, 1);
-        state.selectedNumbers = plusNumbers
-      } else if (!existentNumber && !fullGame()) {
-        plusNumbers = [...state.selectedNumbers, newNumber];
-        state.selectedNumbers = plusNumbers
-      } else {
-        toast.error("The bet's selects numbers are completed. Add your game to cart.")
-        return;
-      }
-    },*/
     completeGame(state, action) {
       const data: { 
         max: number; 
@@ -186,6 +90,7 @@ const cartSlice = createSlice({
 
       if (state.games.numbers.length < data.min) {
         toast.warning(`Still need to select ${missingNumbers} number${missingNumbers > 1 ? 's' : ''}!`);
+        return;
       }
 
       state.games.type = data.type;
@@ -194,29 +99,6 @@ const cartSlice = createSlice({
       state.cartGames.push(state.games);
       state.totalPrice += data.price;
       state.games = initialState.games;
-
-      /*const game = {
-        id: state.games.id,
-        name: state.games.type,
-        price: state.active.price,
-        color: state.active.color,        
-        numbers: state.selectedNumbers,
-        date: +new Date()
-      };
-
-      state.totalPrice = state.totalPrice + state.active.price;
-      state.games.push(game);
-      state.quantity++;
-      state.selectedNumbers = []
-
-      const missingNumbers = state.active['max-number'] - state.selectedNumbers.length;
-      state.selectedNumbers.sort((a, b) => a - b);
-
-      if (state.active['max-number'] > state.selectedNumbers.length) {
-        toast.warning(`Still need to select ${missingNumbers} number${missingNumbers > 1 ? 's' : ''}!`);
-      } else {
-        toast.error ("The maximum quantity of numbers has already been selected!");
-      }*/
     },
     removeItemFromCart (state, action) {
       const data: { id: number; price: number} = action.payload;
@@ -230,6 +112,7 @@ const cartSlice = createSlice({
         state.totalPrice = 0;
       } else {
         toast.warning (`The minimum cart value to save the bet is R$30,00`);
+        return;
       }
     }
   },

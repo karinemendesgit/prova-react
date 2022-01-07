@@ -22,27 +22,26 @@ const NewBet: React.FC = () => {
   
   const dataGame = useMemo(() => api.types[selectedGame], [selectedGame])
   
-    const selectNumber = (index: number) => {
-      try {
-        dispatch(cartActions.addNumber({ index, max: dataGame["max-number"]}))
-      } catch (error:any) {
-        toast.error(error.message)
-      }
-    }
+  function selectNumber (index:number) {
+    dispatch(cartActions.addNumber({
+      max: dataGame["max-number"],
+      index,
+    }));
+  }
 
-    const getNumbers = () => {
-      let numbers = [];
-      for (let i = 1; i <= dataGame.range; i++) {
-        numbers.push(
-          <NumbersButton
-            key={i}
-            index={('0' + i).slice(-2)}
-            color={dataGame.color}
-            onClick={() => {selectNumber(i)}}
-          />
-        );
-      } return numbers;
-    }
+  const getNumbers = () => {
+    let numbers = [];
+    for (let i = 1; i <= dataGame.range; i++) {
+      numbers.push(
+        <NumbersButton
+          key={i}
+          index={('0' + i).slice(-2)}
+          color={dataGame.color}
+          onClick={() => {selectNumber(i)}}
+        />
+      );
+    } return numbers;
+  }
 
   function completeGame () {
     dispatch(cartActions.completeGame({
