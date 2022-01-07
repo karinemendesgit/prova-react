@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
-import { toast, ToastContainer } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 
 import { cartActions } from "../store/cart";
 import api from '../services/games.json';
@@ -63,13 +63,7 @@ const NewBet: React.FC = () => {
   }
 
   function saveCart() {
-    try {
-      dispatch(cartActions.saveGame());
-      navigate('/home')
-    } catch (error: any) {
-      toast.error(error.message);
-      return;
-    }
+    dispatch(cartActions.saveGame());
   }
 
   return (
@@ -81,7 +75,7 @@ const NewBet: React.FC = () => {
             <p><b>NEW BET</b> FOR {dataGame.type.toUpperCase()}</p>
           </div>
           <h3 className={classes.textNB}>Choose a game</h3>
-          <div className={classes.buttonsNB}>
+          <div>
             <NewBetButtons selectedGame={selectedGame} setSelectedGame={setSelectedGame} />
           </div>
           <div>

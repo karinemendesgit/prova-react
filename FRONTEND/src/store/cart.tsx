@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
+import api from '../services/games.json'
 
 interface GameProps {
   type: string;
@@ -93,6 +94,15 @@ const cartSlice = createSlice({
         return;
       }
 
+      const gameAlreadyChoiced = (arr: number[]) => {
+        return state.cartGames.some((game => game.numbers.toString() === arr.toString()))
+      }
+
+      if (gameAlreadyChoiced(state.games.numbers)) {
+        toast.warning('This numbers have already been selected. Choose others!')
+        return;
+      }
+
       state.games.type = data.type;
       state.games.id = state.cartGames.length;
       state.games.date = +new Date();
@@ -106,10 +116,10 @@ const cartSlice = createSlice({
       state.totalPrice -= data.price;
     },
     saveGame (state) {
-      if (state.totalPrice >= 30) {
-        state.cartGames.forEach(game => state.savedGames.push(game));
+      if (state.totalPrice >= api['min-cart-value']) {
+        state.savedGames = [...state.savedGames, ...state.cartGames];
         state.cartGames = [];
-        state.totalPrice = 0;
+        state.totalPrice = 0
       } else {
         toast.warning (`The minimum cart value to save the bet is R$30,00`);
         return;

@@ -1,9 +1,9 @@
 import { cartActions } from "../store/cart";
 import trashIcon from '../assets/trash.svg';
-import React from "react";
 import { useDispatch } from "react-redux";
 import { formatedPrice } from '../utils/cart-facilities';
 import api from '../services/games.json';
+import { CardStyle, DivStyled, ListStyle, DivFlex } from "./CardStyle";
 
 interface CardProps {
   numbers: number[];
@@ -24,21 +24,22 @@ export default function Card(props: CardProps): JSX.Element {
   }
 
   return (
-    <div>
+    <CardStyle>
       <div>
         <button onClick={handleRemoveItemFromCart}>
           <img src={trashIcon}/>
         </button>
-        </div>      
-        <div>
+        </div>
+        <DivStyled color={gameData!.color}></DivStyled>
+        <DivFlex>
           <p>
           {numbers.join(', ')}
           </p>
-          <div>
+          <ListStyle color={gameData!.color}>
             <p>{props.type}</p>
             <span>{price}</span>
-          </div>
-        </div>
-    </div>
+          </ListStyle>
+        </DivFlex>
+    </CardStyle>
   )
 }

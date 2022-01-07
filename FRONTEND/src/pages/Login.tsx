@@ -1,6 +1,6 @@
 import { useRef , FormEvent, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { authActions } from "../store/auth";
 import api from "../services/api";
 

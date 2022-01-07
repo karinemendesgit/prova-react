@@ -1,19 +1,8 @@
-import { useDispatch, useSelector, RootStateOrAny } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useSelector, RootStateOrAny } from "react-redux";
 
-import { cartActions } from "../store/cart";
 import { formatedPrice } from '../utils/cart-facilities';
 import CartItem from "./CartItem";
-
-interface gameProps {
-  id: number;
-  name: string;
-  price: number;
-  color: string;
-  numbers: number[];
-  date: number;
-}
+import { CartStyle } from './CartStyle';
 
 export function Cart(): JSX.Element {
   const gameContext = useSelector((state: RootStateOrAny) => state.cart)
@@ -23,13 +12,13 @@ export function Cart(): JSX.Element {
   return (
   <>
     <h2>CART</h2>
-      <div>          
+      <CartStyle>          
         <div>
           {gameContext.cartGames.length > 0 ? (
             <CartItem></CartItem>
           ) : (<p>Empty Cart</p>)}
         </div>
-      </div>
+      </CartStyle>
       <div >
         <h2>CART <span>TOTAL: {price}</span></h2> 
       </div>               
