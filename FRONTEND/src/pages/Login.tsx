@@ -1,6 +1,6 @@
 import { useRef , FormEvent, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/auth";
 import api from "../services/api";
 
@@ -14,6 +14,7 @@ const Login: React.FC = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -30,6 +31,7 @@ const Login: React.FC = () => {
 
     if (emailVerified && passwordVerified) {
       dispatch(authActions.login({email: emailVerified, password: passwordVerified}));
+      navigate('/home');
     }
     
     try {

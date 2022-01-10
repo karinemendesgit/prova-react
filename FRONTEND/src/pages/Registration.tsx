@@ -16,8 +16,7 @@ const Registration: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const registerHandler = async (event:any) => {
-    event.preventDefault();
+  async function registerHandler (data:any) {
     if (nameRef && emailRef && passwordRef) {
       dispatch(authActions.login({email: emailRef, password: passwordRef}));
     }
@@ -25,7 +24,7 @@ const Registration: React.FC = () => {
     try {
       const response = await fetch(`${api}/user/create`, {
         method: 'POST',
-        body: JSON.stringify(event),
+        body: JSON.stringify(data),
         headers: { 'Content-Type': 'application/json'},
       });
   
@@ -34,7 +33,7 @@ const Registration: React.FC = () => {
       if (!response.ok) {
         throw new Error (dados);
       }
-      navigate('/login');
+      navigate('/');
     } catch (error) {
       console.log(error);
     }

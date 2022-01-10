@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 
@@ -17,7 +17,6 @@ import NumbersButton from "../components/NumbersButtons";
 
 const NewBet: React.FC = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [ selectedGame, setSelectedGame ] = useState(0);
   
   const dataGame = useMemo(() => api.types[selectedGame], [selectedGame])
