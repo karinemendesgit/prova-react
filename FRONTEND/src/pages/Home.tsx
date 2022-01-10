@@ -47,13 +47,12 @@ const Home: React.FC = () => {
   }
 
   const buttonFilters = gameData.map((game, id) => (
-    <li key={id}>
       <BetTypeButton 
+        key={id}
         text={game.type} 
         textColor={game.color} 
         selected={isSelected(id)}
         onClick={() => handleFilter(id)} />
-    </li>
   ));
 
   const betGames = betSelected.map((number) => gameData[number]);
@@ -76,7 +75,7 @@ const Home: React.FC = () => {
               {buttonFilters}
             </div>
           </div>
-          <div>
+          <div className={classes.listHome}>
             {betSelected.length > 0 ? filteredGames : allBetGames}
           </div>
         </div>

@@ -14,16 +14,18 @@ function GameListItem(props:GameItemProp): JSX.Element {
     style: 'currency',
     currency: 'BRL'
   });
+  let numbers = props.numbers;
+  numbers = numbers.slice().sort((a, b) => a- b)
 
-  const formatedDate = (`0 ${date.getDate()}`).slice(-2) + '/' + (`0 ${date.getMonth() + 1}`).slice(-2) + '/' + date.getFullYear();
+  const formatedDate = (`0${date.getDate()}`).slice(-2) + '/' + (`0${date.getMonth() + 1}`) + '/' + date.getFullYear();
 
   return (
     <ListContainer>
       <StyledDiv color={game!.color}/>
       <ListItems color={game!.color}>
-      <h3>{props.numbers.join(', ')}</h3>
-      <p>{`${formatedDate} - (${price})`}</p>
-      <h3 className='gametype'>{props.type}</h3>
+        <h3>{numbers.join(', ')}</h3>
+        <p>{`${formatedDate} - (${price})`}</p>
+        <h3 className='gametype'>{props.type}</h3>
       </ListItems>
     </ListContainer>    
   );
