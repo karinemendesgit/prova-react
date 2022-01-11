@@ -19,7 +19,7 @@ const Registration: React.FC = () => {
 
   async function registerHandler (data:any) {
     if (nameRef && emailRef && passwordRef) {
-      dispatch(authActions.login({email: emailRef, password: passwordRef}));
+      dispatch(authActions.createAccount({ name: nameRef, email: emailRef, password: passwordRef }));
       navigate('/');
     }
     
