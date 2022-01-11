@@ -1,15 +1,25 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux"
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import Sidebar from "../components/Sidebar";
 import classes from "../styles/reset.module.css";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import api from "../services/api";
 
 const ResetPassword: React.FC = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    api.post('/user/create')
+    .then((response) => response.data)
+    .catch((err) => {
+      toast.warning(err)
+    })
+  }, [])
   
   return (
     <div className={classes.container}>

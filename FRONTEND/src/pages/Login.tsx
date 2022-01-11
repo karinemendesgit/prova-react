@@ -1,8 +1,9 @@
 import { useRef , FormEvent, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { authActions } from "../store/auth";
 import api from "../services/api";
+import { toast } from 'react-toastify'
 
 import Sidebar from "../components/Sidebar";
 import classes from "../styles/login.module.css";
@@ -34,22 +35,13 @@ const Login: React.FC = () => {
       navigate('/home');
     }
     
-    try {
-      const response = await fetch(`${api}/login`, {
-        method: 'POST',
-        body: JSON.stringify(event),
-        headers: { 'Content-Type': 'application/json'},
-      });
-  
-      const dados = await response.json();
-  
-      if (!response.ok) {
-        throw new Error (dados);
-      }
-      navigate('/home');
-    } catch (error) {
-      console.log(error);
-    }
+    useEffect(() => {
+      api.post('/login')
+      .then((response) => response.data)
+      .catch((err) => {
+        toast.warning(err)
+      })
+    }, [])
   }
   
   return (

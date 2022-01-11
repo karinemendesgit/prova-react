@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store/auth";
@@ -8,6 +8,7 @@ import Sidebar from "../components/Sidebar";
 import classes from "../styles/registration.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { toast } from "react-toastify";
 
 const Registration: React.FC = () => {
   const nameRef = useRef<HTMLInputElement>(null);
@@ -21,22 +22,13 @@ const Registration: React.FC = () => {
       dispatch(authActions.login({email: emailRef, password: passwordRef}));
     }
     
-    try {
-      const response = await fetch(`${api}/user/create`, {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: { 'Content-Type': 'application/json'},
-      });
-  
-      const dados = await response.json();
-  
-      if (!response.ok) {
-        throw new Error (dados);
-      }
-      navigate('/');
-    } catch (error) {
-      console.log(error);
-    }
+    useEffect(() => {
+      api.post('/user/create')
+      .then((response) => response.data)
+      .catch((err) => {
+        toast.warning(err)
+      })
+    }, [])
   }
   return (
     <div className={classes.container}>
