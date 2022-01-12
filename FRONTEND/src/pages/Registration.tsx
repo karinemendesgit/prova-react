@@ -1,4 +1,4 @@
-import { useEffect, useRef, FormEvent } from "react";
+import { useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store/auth";
@@ -17,20 +17,25 @@ const Registration: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  async function RegisterHandler (event:FormEvent) {
-    event.preventDefault();
-    if (nameRef && emailRef && passwordRef) {
+  useEffect(() => {
+    RegisterHandler()
+  }, [])
+
+  async function RegisterHandler () {
+    const nameVerified = nameRef.current!.value.trim();
+    const emailVerified = emailRef.current!.value.trim();
+    const passwordVerified = passwordRef.current!.value.trim();
+
+    if (nameVerified && emailVerified && passwordVerified) {
       dispatch(authActions.createAccount({ name: nameRef, email: emailRef, password: passwordRef }));
       navigate('/');
     }
-    
-    useEffect(() => {
-      api.post('/user/create')
+
+    api.post('/user/create')
       .then((response) => response.data)
       .catch((err) => {
         toast.warning(err)
-      })
-    }, [])
+      })  
   }
   return (
     <div className={classes.container}>

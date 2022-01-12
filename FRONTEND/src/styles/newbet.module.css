@@ -34,6 +34,12 @@
   max-width: 800px;
 }
 
+.divBetType {
+  display: flex;
+  align-items: flex-start;
+  margin-left: -40px;
+}
+
 
 .numbers {
   display: grid;
@@ -93,7 +99,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .cart a {

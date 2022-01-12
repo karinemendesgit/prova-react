@@ -29,6 +29,10 @@
   align-items: center;
 }
 
+.firstLine p {
+  margin-left: 30px;
+}
+
 .buttonsHome {
   display: flex;
   gap: 20px;
@@ -39,7 +43,7 @@
 }
 
 .listHome {
-  overflow-y: scroll;
+  overflow-y: auto;
   list-style: none;
   display: flex;
   flex-direction: column;

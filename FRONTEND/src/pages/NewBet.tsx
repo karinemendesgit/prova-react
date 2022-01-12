@@ -74,7 +74,7 @@ const NewBet: React.FC = () => {
             <p><b>NEW BET</b> FOR {dataGame.type.toUpperCase()}</p>
           </div>
           <h3 className={classes.textNB}>Choose a game</h3>
-          <div>
+          <div className={classes.divBetType}>
             <NewBetButtons selectedGame={selectedGame} setSelectedGame={setSelectedGame} />
           </div>
           <div>

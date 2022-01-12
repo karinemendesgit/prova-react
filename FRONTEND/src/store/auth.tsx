@@ -26,7 +26,7 @@ const authSlice = createSlice({
   reducers: {
     login (state, action) {
       const { email, password } = action.payload;
-      if (email.trim().length > 0 && password.trim().length > 0) {
+      if (email.length > 0 && password.length > 0) {
         const userHaveAccount = state.users.find((user: User) => user.email === email);
         if(userHaveAccount && userHaveAccount.password === password) {
           state.isAuthenticated = true;
@@ -53,9 +53,9 @@ const authSlice = createSlice({
         password
       } = action.payload;
 
-      const nameFilled = name.trim().length > 2;
-      const emailFilled = email.trim().length > 0;
-      const passwordFilled = password.trim().length > 0;
+      const nameFilled = name.length > 2;
+      const emailFilled = email.length > 0;
+      const passwordFilled = password.length > 0;
 
       if(nameFilled && emailFilled && passwordFilled) {
         const userFound = state.users.some(user => {
@@ -80,7 +80,7 @@ const authSlice = createSlice({
     },
     resetPassword (state, action) {
       const email = action.payload;
-      const emailFilled = email.trim().length > 0;
+      const emailFilled = email.length > 0;
 
       if(emailFilled) {
         const userFound = state.users.some(user => {

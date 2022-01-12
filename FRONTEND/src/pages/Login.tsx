@@ -1,4 +1,4 @@
-import { useRef , FormEvent, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store/auth";
@@ -22,15 +22,16 @@ const Login: React.FC = () => {
       navigate('/home');
     }
   }, [navigate]);
-  
-  const LoginHandler = async (event: FormEvent) => {
-    event.preventDefault();
 
+  useEffect(() => {
+   LoginHandler();
+  }, [])
+  
+  const LoginHandler = async () => {
     const emailVerified = emailRef.current!.value.trim();
     const passwordVerified = passwordRef.current!.value.trim();
-    
-    useEffect(() => {
-      api.post('/login')
+
+    api.post('/login')
       .then((response) => {
         if (emailVerified && passwordVerified) {
           dispatch(authActions.login({email: emailVerified, password: passwordVerified}));
@@ -41,7 +42,6 @@ const Login: React.FC = () => {
       .catch((err) => {
         toast.warning(err)
       })
-    }, [])
   }
   
   return (

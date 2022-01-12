@@ -1,4 +1,4 @@
-import { useRef, useEffect, FormEvent } from "react";
+import { useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
@@ -15,9 +15,11 @@ const ResetPassword: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const ResetHandler = async (event: FormEvent) => {
-    event.preventDefault();
+  useEffect(() => {
+    ResetHandler()
+  }, [])
 
+  const ResetHandler = async () => {
     const emailVerified = emailRef.current!.value.trim();
 
     if (emailVerified) {
@@ -25,13 +27,11 @@ const ResetPassword: React.FC = () => {
       navigate('/');
   }
 
-  useEffect(() => {
-    api.post('/reset')
+  api.post('/reset')
     .then((response) => response.data)
     .catch((err) => {
       toast.warning(err)
-    })
-  }, [])
+    })  
 }
   
   return (

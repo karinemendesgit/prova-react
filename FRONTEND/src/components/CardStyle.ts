@@ -16,8 +16,8 @@ export const CardStyle = styled.div `
   }
 `
 
-export const DivStyled = styled.div `
-  width: 4px;
+export const DivStyled = styled.div<CartProp>`
+  min-width: 4px;
   height: 86px;
   margin-right: 10px;
   background: ${pr => pr.color} 0% 0% no-repeat padding-box;
@@ -30,7 +30,7 @@ export const DivFlex = styled.div `
   justify-content: center;
 `
 
-export const ListStyle = styled.div `
+export const ListStyle = styled.div<CartProp>`
   display: flex;
   align-items: center;
   gap: 14px;
