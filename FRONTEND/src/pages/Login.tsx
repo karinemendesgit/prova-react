@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store/auth";
 import api from "../services/api";
-import { toast } from 'react-toastify'
+import { toast, ToastContainer } from 'react-toastify'
 
 import Sidebar from "../components/Sidebar";
 import classes from "../styles/login.module.css";
@@ -15,7 +15,6 @@ const Login: React.FC = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -24,20 +23,21 @@ const Login: React.FC = () => {
     }
   }, [navigate]);
   
-  const loginHandler = async (event: FormEvent) => {
+  const LoginHandler = async (event: FormEvent) => {
     event.preventDefault();
 
     const emailVerified = emailRef.current!.value.trim();
     const passwordVerified = passwordRef.current!.value.trim();
-
-    if (emailVerified && passwordVerified) {
-      dispatch(authActions.login({email: emailVerified, password: passwordVerified}));
-      navigate('/home');
-    }
     
     useEffect(() => {
       api.post('/login')
-      .then((response) => response.data)
+      .then((response) => {
+        if (emailVerified && passwordVerified) {
+          dispatch(authActions.login({email: emailVerified, password: passwordVerified}));
+          localStorage.setItem("token", response.headers.etag);
+          navigate('/home');
+        }
+      })
       .catch((err) => {
         toast.warning(err)
       })
@@ -50,7 +50,7 @@ const Login: React.FC = () => {
       <div className={classes.login}>
         <h3>Authentication</h3>
         <div className={classes.containerLogin}>
-          <form onSubmit={loginHandler}>
+          <form onSubmit={LoginHandler}>
             <div className={classes.inputLogin}>
               <input 
               type="email" 
@@ -69,7 +69,7 @@ const Login: React.FC = () => {
           <Link to="/reset-password">
             <p className={classes.questionLogin}>I forget my password</p>
           </Link>
-          <div className={classes.buttonLogin} onClick={loginHandler}>            
+          <div className={classes.buttonLogin} onClick={LoginHandler}>            
             <h3>Log In</h3>
             <FontAwesomeIcon icon={faArrowRight}/>
           </div>
@@ -81,6 +81,15 @@ const Login: React.FC = () => {
           </Link>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={true}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        theme="colored"
+      />
     </div>
   );
 }

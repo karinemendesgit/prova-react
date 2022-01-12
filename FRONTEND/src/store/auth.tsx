@@ -99,15 +99,10 @@ const authSlice = createSlice({
         toast.error('Fill the field with your email')
       }
     },
-    logout (state, action) {
-      const email = action.payload;
-      const userLogger = state.users.find((user: User) => user.email === email);
-
-      if (userLogger) {
-        state.isAuthenticated = false;
-        state.userAuthenticated = null;
-        toast.success('Logout successfully!')
-      }      
+    logout (state) {
+      state.isAuthenticated = false;
+      state.userAuthenticated = null;
+      toast.success('Logout successfully!')  
     }
   }
 })

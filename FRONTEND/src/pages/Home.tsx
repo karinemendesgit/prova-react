@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, RootStateOrAny } from 'react-redux';
+import { ToastContainer } from "react-toastify";
 
 import classes from "../styles/home.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -86,6 +87,15 @@ const Home: React.FC = () => {
           </Link>
         </div>
       </main>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={true}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        theme="colored"
+      />
     </div>
   );
 }
