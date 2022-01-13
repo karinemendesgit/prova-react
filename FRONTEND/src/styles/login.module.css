@@ -57,7 +57,7 @@
   margin: 26.5px 27px 0px 166px;
 }
 
-.buttonLogin {
+.buttonLogin a {
   display: flex;
   align-items: center;
   justify-content: center;

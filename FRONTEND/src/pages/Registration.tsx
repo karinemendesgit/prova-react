@@ -29,12 +29,12 @@ const Registration: React.FC = () => {
     if (nameVerified && emailVerified && passwordVerified) {
       dispatch(authActions.createAccount({ name: nameRef, email: emailRef, password: passwordRef }));
       navigate('/');
-    }
+    } 
 
-    api.post('/user/create')
+    api.post(`/user/create`)
       .then((response) => response.data)
-      .catch((err) => {
-        toast.warning(err)
+      .catch((error) => {
+        toast.warning(error)
       })  
   }
   return (

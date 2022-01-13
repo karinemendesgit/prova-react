@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store/auth";
 import api from "../services/api";
-import { toast, ToastContainer } from 'react-toastify'
+import { toast, ToastContainer } from 'react-toastify';
 
 import Sidebar from "../components/Sidebar";
 import classes from "../styles/login.module.css";
@@ -18,7 +18,7 @@ const Login: React.FC = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token !== null) {
+    if (token) {
       navigate('/home');
     }
   }, [navigate]);
@@ -31,7 +31,7 @@ const Login: React.FC = () => {
     const emailVerified = emailRef.current!.value.trim();
     const passwordVerified = passwordRef.current!.value.trim();
 
-    api.post('/login')
+    api.post(`${process.env.PUBLIC_URL}/login`)
       .then((response) => {
         if (emailVerified && passwordVerified) {
           dispatch(authActions.login({email: emailVerified, password: passwordVerified}));
@@ -39,8 +39,8 @@ const Login: React.FC = () => {
           navigate('/home');
         }
       })
-      .catch((err) => {
-        toast.warning(err)
+      .catch((error) => {
+        toast.warning(error)
       })
   }
   
@@ -69,9 +69,11 @@ const Login: React.FC = () => {
           <Link to="/reset-password">
             <p className={classes.questionLogin}>I forget my password</p>
           </Link>
-          <div className={classes.buttonLogin} onClick={LoginHandler}>            
-            <h3>Log In</h3>
-            <FontAwesomeIcon icon={faArrowRight}/>
+          <div className={classes.buttonLogin} onClick={LoginHandler}> 
+            <Link to="/home" className={classes.signUp}>           
+              <h3>Log In</h3>
+              <FontAwesomeIcon icon={faArrowRight}/>
+            </Link>
           </div>
         </div>
         <div>

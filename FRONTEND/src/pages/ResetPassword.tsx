@@ -27,10 +27,10 @@ const ResetPassword: React.FC = () => {
       navigate('/');
   }
 
-  api.post('/reset')
+  api.post(`/reset`)
     .then((response) => response.data)
-    .catch((err) => {
-      toast.warning(err)
+    .catch((error) => {
+      toast.warning(error)
     })  
 }
   

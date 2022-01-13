@@ -40,7 +40,7 @@ const authSlice = createSlice({
           if (emailFound) {
             toast.error('Incorrect password')
           } else {
-            toast.error("Email not founded! Please verify your email or check if you have a register")
+            toast.warn("Email not founded! Please verify your email or check if you have a register")
           }
           return;
         }
