@@ -9,6 +9,7 @@ import classes from "../styles/registration.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { toast, ToastContainer } from "react-toastify";
+import { userValidations } from '../utils/login-validations';
 
 const Registration: React.FC = () => {
   const nameRef = useRef<HTMLInputElement>(null);
@@ -21,20 +22,28 @@ const Registration: React.FC = () => {
     RegisterHandler()
   }, [])
 
+  function createAccount () {
+    dispatch(authActions.createAccount({ name: nameRef, email: emailRef, password: passwordRef }));
+  }
+
   async function RegisterHandler () {
     const nameVerified = nameRef.current!.value.trim();
     const emailVerified = emailRef.current!.value.trim();
     const passwordVerified = passwordRef.current!.value.trim();
-
-    if (nameVerified && emailVerified && passwordVerified) {
-      dispatch(authActions.createAccount({ name: nameRef, email: emailRef, password: passwordRef }));
-      navigate('/');
+  
+    if (!userValidations (emailVerified, passwordVerified)) {
+      toast.error("Fill all the fields to register");
     } 
-
-    api.post(`/user/create`)
-      .then((response) => response.data)
+     
+    api.post(`/user/create`, {name: nameVerified, email: emailVerified, password: passwordVerified})
+      .then((response) => {
+        if (response.status === 200) {
+          toast.success('Successfully completed registration');
+          navigate('/');
+        }
+      })
       .catch((error) => {
-        toast.warning(error)
+        return toast.error(error.message);
       })  
   }
   return (
@@ -43,9 +52,9 @@ const Registration: React.FC = () => {
       <div className={classes.registration}>
         <h3>Registration</h3>
         <div className={classes.containerRegistration}>
-          <form onSubmit={RegisterHandler}>
+          <form onClick={createAccount}>
             <div className={classes.inputRegistration}>
-              <input type="text" name="" id="" placeholder="Name" ref={nameRef} required/>
+              <input type="text" name="" id="" placeholder="Name" ref={nameRef} required />
             </div>
             <div className={classes.inputRegistration}>
               <input type="email" name="" id="" placeholder="Email" ref={emailRef} required/>

@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import api from "../services/api";
 import { authActions } from "../store/auth";
+import { emailValidation } from '../utils/login-validations';
 
 const ResetPassword: React.FC = () => {
   const emailRef = useRef<HTMLInputElement>(null);
@@ -22,16 +23,21 @@ const ResetPassword: React.FC = () => {
   const ResetHandler = async () => {
     const emailVerified = emailRef.current!.value.trim();
 
-    if (emailVerified) {
+    if (emailValidation(emailVerified)) {
       dispatch(authActions.resetPassword({ email: emailRef }));
       navigate('/');
-  }
+    }
 
-  api.post(`/reset`)
-    .then((response) => response.data)
-    .catch((error) => {
-      toast.warning(error)
-    })  
+  api.post(`/reset`, { email: emailVerified })
+  .then((response) => {
+    if (response.status === 200) {
+      toast.success('Successfully completed registration');
+      navigate('/');
+    }
+  })
+  .catch((error) => {
+    return toast.error(error.message);
+  })
 }
   
   return (

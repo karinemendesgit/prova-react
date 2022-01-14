@@ -9,6 +9,7 @@ import Sidebar from "../components/Sidebar";
 import classes from "../styles/login.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { userValidations } from '../utils/login-validations';
 
 const Login: React.FC = () => {
   const emailRef = useRef<HTMLInputElement>(null);
@@ -31,13 +32,18 @@ const Login: React.FC = () => {
     const emailVerified = emailRef.current!.value.trim();
     const passwordVerified = passwordRef.current!.value.trim();
 
-    api.post(`${process.env.PUBLIC_URL}/login`)
+    if (!userValidations (emailVerified,passwordVerified)) {      
+      dispatch(authActions.login({email: emailVerified, password: passwordVerified}));
+      toast.error("Fill all the fields to  login");
+    }    
+  
+    api.post(`/login`)
       .then((response) => {
-        if (emailVerified && passwordVerified) {
-          dispatch(authActions.login({email: emailVerified, password: passwordVerified}));
+        if (response.status === 200) {
           localStorage.setItem("token", response.headers.etag);
           navigate('/home');
         }
+          
       })
       .catch((error) => {
         toast.warning(error)
@@ -70,10 +76,10 @@ const Login: React.FC = () => {
             <p className={classes.questionLogin}>I forget my password</p>
           </Link>
           <div className={classes.buttonLogin} onClick={LoginHandler}> 
-            <Link to="/home" className={classes.signUp}>           
+            <button className={classes.signUp}>           
               <h3>Log In</h3>
               <FontAwesomeIcon icon={faArrowRight}/>
-            </Link>
+            </button>
           </div>
         </div>
         <div>
