@@ -18,36 +18,34 @@ const Login: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      navigate('/home');
-    }
-  }, [navigate]);
-
-  useEffect(() => {
-   LoginHandler();
-  }, [])
+    LoginHandler();
+  }, []);
   
   const LoginHandler = async () => {
     const emailVerified = emailRef.current!.value.trim();
-    const passwordVerified = passwordRef.current!.value.trim();
+    const passwordVerified = passwordRef.current!.value.trim(); 
 
-    if (!userValidations (emailVerified,passwordVerified)) {      
-      dispatch(authActions.login({email: emailVerified, password: passwordVerified}));
-      toast.error("Fill all the fields to  login");
-    }    
-  
-    api.post(`/login`)
-      .then((response) => {
-        if (response.status === 200) {
-          localStorage.setItem("token", response.headers.etag);
-          navigate('/home');
-        }
-          
-      })
-      .catch((error) => {
-        toast.warning(error)
-      })
+    const token = localStorage.getItem("token");
+
+    const config = {
+      headers: { Authorization: `Bearer ${token}`}
+    }
+    
+    if (userValidations (emailVerified, passwordVerified)) {
+      api.post(`/login`, config)
+        .then((response) => {
+          if (response.status === 200) {
+            dispatch(authActions.login({ email: emailRef, password: passwordRef }));
+            localStorage.setItem("token", response.headers.etag);
+            navigate('/home');
+          }
+        })
+        .catch((error) => {
+          return toast.error(error.message);
+        })
+      } else {
+        dispatch(authActions.login({ email: emailRef, password: passwordRef }));
+      }  
   }
   
   return (
@@ -59,27 +57,25 @@ const Login: React.FC = () => {
           <form onSubmit={LoginHandler}>
             <div className={classes.inputLogin}>
               <input 
-              type="email" 
-              placeholder="Email" 
-              ref={emailRef} 
-              required/>
+                type="email" 
+                placeholder="Email" 
+                ref={emailRef} 
+              />
             </div>
             <div className={classes.inputLogin}>
               <input 
-              type="password" 
-              placeholder="Password"
-              ref={passwordRef} 
-              required/>
+                type="password" 
+                placeholder="Password"
+                ref={passwordRef}
+              />
             </div>
           </form>
           <Link to="/reset-password">
             <p className={classes.questionLogin}>I forget my password</p>
           </Link>
-          <div className={classes.buttonLogin} onClick={LoginHandler}> 
-            <button className={classes.signUp}>           
-              <h3>Log In</h3>
-              <FontAwesomeIcon icon={faArrowRight}/>
-            </button>
+          <div className={classes.buttonLogin} onClick={LoginHandler}>
+            <h3>Log In</h3>
+            <FontAwesomeIcon icon={faArrowRight}/>
           </div>
         </div>
         <div>

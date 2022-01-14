@@ -1,20 +1,21 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, RootStateOrAny } from 'react-redux';
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 
 import classes from "../styles/home.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import Header from "../components/Header";
-import api from '../services/games.json'
+import bets from '../services/games.json'
 import BetTypeButton from "../components/BetTypeButton";
 import GameListItem from "../components/GameListItem";
+import api from "../services/api";
 
 const Home: React.FC = () => {
   const [ betSelected, setBetSelected ] = useState<number[]>([]);
   const savedGames = useSelector((state: RootStateOrAny) => state.cart.savedGames);
-  const gameData = api.types;
+  const gameData = bets.types;
 
   function handleFilter(id: number) {
     if (betSelected.includes(id)) {
@@ -45,6 +46,19 @@ const Home: React.FC = () => {
         />
       </li>
     ))
+  }
+
+  function handleListGames() {
+    const token = localStorage.getItem("token");
+
+    const config = {
+      headers: { Authorization: `Bearer ${token}`}
+    }
+    api.get(`/bet/all-bets`, config)
+    .then((response) => (response.data))
+    .catch((error) => {
+      toast.warning(error)
+    })
   }
 
   const buttonFilters = gameData.map((game, id) => (

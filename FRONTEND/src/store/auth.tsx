@@ -28,22 +28,15 @@ const authSlice = createSlice({
       const { email, password } = action.payload;
       if (email.length > 0 && password.length > 0) {
         const userHaveAccount = state.users.find((user: User) => user.email === email);
-        if(userHaveAccount && userHaveAccount.password === password) {
+        if (userHaveAccount && userHaveAccount.password === password) {
           state.isAuthenticated = true;
           state.userAuthenticated = userHaveAccount;
-          toast.success('Login made successfully!')
-          return state;
+          toast.success('Login made successfully!');
         } else {
-          const emailFound = state.users.some((user) => {
-            return user.email === email;
-          })
-          if (emailFound) {
-            toast.error('Incorrect password')
-          } else {
-            toast.warn("Email not founded! Please verify your email or check if you have a register")
-          }
-          return;
-        }
+          toast.error('Incorrect password')
+        } 
+      } else {
+        toast.warn("Email not founded! Please verify your email or check if you have a register")
       }
     },
     createAccount (state, action) {

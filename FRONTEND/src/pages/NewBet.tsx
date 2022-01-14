@@ -1,10 +1,10 @@
 import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 
 import { cartActions } from "../store/cart";
-import api from '../services/games.json';
+import games from '../services/games.json';
 import cartIcon from "../assets/cart.svg";
 import "react-toastify/dist/ReactToastify.css";
 import classes from "../styles/newbet.module.css";
@@ -14,12 +14,13 @@ import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import NewBetButtons from '../components/NewBetButtons';
 import { Cart } from "../components/Cart";
 import NumbersButton from "../components/NumbersButtons";
+import api from "../services/api";
 
 const NewBet: React.FC = () => {
   const dispatch = useDispatch();
   const [ selectedGame, setSelectedGame ] = useState(0);
   
-  const dataGame = useMemo(() => api.types[selectedGame], [selectedGame])
+  const dataGame = useMemo(() => games.types[selectedGame], [selectedGame])
   
   function selectNumber (index:number) {
     dispatch(cartActions.addNumber({
@@ -61,8 +62,18 @@ const NewBet: React.FC = () => {
     }));
   }
 
-  function saveCart() {
-    dispatch(cartActions.saveGame());
+  function handleSaveCart() {
+    const user = localStorage.getItem("user");
+    api.post(`/bet/new-bet`)
+    .then((response) => ({
+      if (user: any) {
+        localStorage.setItem("token", response.headers.etag);
+        dispatch(cartActions.saveGame());
+      }
+    }))
+    .catch((error) => {
+      toast.warning(error)
+    })    
   }
 
   return (
@@ -110,7 +121,7 @@ const NewBet: React.FC = () => {
         </div>
         <div className={classes.cart}>
           <Cart/>           
-          <div onClick={saveCart}>
+          <div onClick={handleSaveCart}>
             <Link to="/home">
               <h1>Save</h1>
               <FontAwesomeIcon icon={faArrowRight}/>

@@ -18,26 +18,25 @@ const ResetPassword: React.FC = () => {
 
   useEffect(() => {
     ResetHandler()
-  }, [])
+  }, []);
 
   const ResetHandler = async () => {
     const emailVerified = emailRef.current!.value.trim();
 
     if (emailValidation(emailVerified)) {
+      api.post(`/reset`, { email: emailVerified })
+        .then((response) => {
+          if (response.status === 200) {
+            dispatch(authActions.resetPassword({ email: emailRef }));
+            navigate('/');
+          }
+        })
+        .catch((error) => {
+          return toast.error(error.message);
+        })
+    } else {
       dispatch(authActions.resetPassword({ email: emailRef }));
-      navigate('/');
-    }
-
-  api.post(`/reset`, { email: emailVerified })
-  .then((response) => {
-    if (response.status === 200) {
-      toast.success('Successfully completed registration');
-      navigate('/');
-    }
-  })
-  .catch((error) => {
-    return toast.error(error.message);
-  })
+    }  
 }
   
   return (
@@ -48,7 +47,7 @@ const ResetPassword: React.FC = () => {
         <div className={classes.containerReset}>
           <form onSubmit={ResetHandler}>
             <div className={classes.inputReset}>
-            <input type="email" name="" id="" placeholder="Email" ref={emailRef} required/>
+            <input type="email" name="email "placeholder="Email" ref={emailRef} />
             </div>
           </form>
           <div className={classes.buttonReset} onClick={ResetHandler}>
