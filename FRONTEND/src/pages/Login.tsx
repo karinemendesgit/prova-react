@@ -9,47 +9,43 @@ import Sidebar from "../components/Sidebar";
 import classes from "../styles/login.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { userValidations } from '../utils/login-validations';
 
 const Login: React.FC = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  function loggedIn() {
-    dispatch(authActions.login({ email: emailRef, password: passwordRef }));
-  }  
-
-  useEffect(() => {
-    LoginHandler();
-  }, []);
+  const dispatch = useDispatch(); 
   
   const LoginHandler = async () => {
     const emailVerified = emailRef.current!.value.trim();
     const passwordVerified = passwordRef.current!.value.trim(); 
 
-    //const token = localStorage.getItem("token");
-
-   /* const config = {
+    const token = localStorage.getItem("token");
+    const config = {
       headers: { Authorization: `Bearer ${token}`}
-    }*/
-    
-    if (userValidations (emailVerified, passwordVerified)) {
-      api.post(`/login`, { email: emailVerified, password: passwordVerified})
-        .then((response) => {
-          if (response.status === 200) {            
-            localStorage.setItem("token", response.data.token);
-            navigate('/home');
-          }
-        })
-        .catch((error) => {
-          return toast.error(error.message);
-        })
-      } else {
-        dispatch(authActions.login({ email: emailRef, password: passwordRef }));
-      }  
+    }
+    const bodyParameters = {
+      email: emailVerified, password: passwordVerified
+    }
+
+   /* api.post(`/login`, bodyParameters, config )
+      .then((response) => {
+        if (response.status === 200) {            
+          localStorage.setItem("token", response.data.token);
+          navigate('/home');
+        }
+      })
+      .catch((error) => {
+        return toast.error(error.message);
+      })  */
+      
+      api.post
   }
+
+  useEffect(() => {
+    LoginHandler();
+    dispatch(authActions.login({ email: emailRef, password: passwordRef }));
+  }, [LoginHandler, dispatch]);  
   
   return (
     <div className={classes.container}>
@@ -57,7 +53,7 @@ const Login: React.FC = () => {
       <div className={classes.login}>
         <h3>Authentication</h3>
         <div className={classes.containerLogin}>
-          <form onSubmit={loggedIn}>
+          <form >
             <div className={classes.inputLogin}>
               <input 
                 type="email" 
@@ -76,7 +72,7 @@ const Login: React.FC = () => {
           <Link to="/reset-password">
             <p className={classes.questionLogin}>I forget my password</p>
           </Link>
-          <div className={classes.buttonLogin} onClick={loggedIn}>
+          <div className={classes.buttonLogin} >
             <h3>Log In</h3>
             <FontAwesomeIcon icon={faArrowRight}/>
           </div>

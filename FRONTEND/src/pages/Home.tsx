@@ -14,7 +14,6 @@ import api from "../services/api";
 
 const Home: React.FC = () => {
   const [ betSelected, setBetSelected ] = useState<number[]>([]);
-  const [ listInfo, setListInfo ] = useState();
   const savedGames = useSelector((state: RootStateOrAny) => state.cart.savedGames);
   const gameData = bets.types;
 
@@ -49,29 +48,26 @@ const Home: React.FC = () => {
     ))
   }
 
-  useEffect(() => {
-    handlerListOfGames();
-  }, []);
-
   const handlerListOfGames = async () => {
-    /*const token = localStorage.getItem("token");
+    const token = localStorage.getItem("login");
 
     const config = {
       headers: { Authorization: `Bearer ${token}`}
-    }*/
+    }
 
-    api.get(`/bet/all-bets/`)
-    .then((response) => {
-      if (response.status === 200) {            
-        localStorage.setItem("token", response.data.token);
-        setListInfo(response);
-      }
-      
-    })
+    api.get(`/bet/all-bets/`, config)
+    .then((response) => console.log(response)      
+    )
     .catch((error) => {
       toast.warning(error)
     })
   }
+
+  useEffect(() => {
+    handlerListOfGames();
+  }, [handlerListOfGames]);
+
+  
 
   const buttonFilters = gameData.map((game, id) => (
       <BetTypeButton 

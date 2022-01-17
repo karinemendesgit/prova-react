@@ -18,6 +18,10 @@ const Registration: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  function createAccount() {
+    dispatch(authActions.createAccount({ name: nameRef, email: emailRef, password: passwordRef }));
+  } 
+
   useEffect(() => {
     RegisterHandler()
   }, [])
@@ -25,30 +29,26 @@ const Registration: React.FC = () => {
   async function RegisterHandler () {
     const nameVerified = nameRef.current!.value.trim();
     const emailVerified = emailRef.current!.value.trim();
-    const passwordVerified = passwordRef.current!.value.trim();
-  
-    if (userValidations (emailVerified, passwordVerified)) {
-      api.post(`/login`, { name: nameVerified, email: emailVerified, password: passwordVerified })
-        .then((response) => {
-          if (response.status === 200) {
-            dispatch(authActions.createAccount({ name: nameRef, email: emailRef, password: passwordRef }));
-            navigate('/');
-          }
-        })
-        .catch((error) => {
-          return toast.error(error.message);
-        })
-      } else {
-        dispatch(authActions.createAccount({ name: nameRef, email: emailRef, password: passwordRef }));
-      } 
+    const passwordVerified = passwordRef.current!.value.trim();  
+
+    api.post(`/user/create`, { name: nameVerified, email: emailVerified, password: passwordVerified })
+      .then((response) => {
+        if (response.status === 200) {
+          navigate('/');
+        }
+      })
+      .catch((error) => {
+        return toast.error(error.message);
+      })      
   }
+
   return (
     <div className={classes.container}>
       <Sidebar/>
       <div className={classes.registration}>
         <h3>Registration</h3>
         <div className={classes.containerRegistration}>
-          <form onSubmit={RegisterHandler}>
+          <form onSubmit={createAccount}>
             <div className={classes.inputRegistration}>
               <input type="text" name="name" placeholder="Name" ref={nameRef} />
             </div>
@@ -59,7 +59,7 @@ const Registration: React.FC = () => {
               <input type="password" name="password" placeholder="Password" ref={passwordRef} />
             </div>
           </form>
-          <div className={classes.buttonRegistration} onClick={RegisterHandler}>
+          <div className={classes.buttonRegistration} onClick={createAccount}>
             <h3>Register</h3>
             <FontAwesomeIcon icon={faArrowRight}/>
           </div>

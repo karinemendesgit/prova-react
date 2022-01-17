@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
@@ -62,18 +62,30 @@ const NewBet: React.FC = () => {
     }));
   }
 
-  function handleSaveCart() {
-    const user = localStorage.getItem("user");
-    api.post(`/bet/new-bet`)
-    .then((response) => ({
-      if (user: any) {
-        localStorage.setItem("token", response.headers.etag);
-        dispatch(cartActions.saveGame());
-      }
-    }))
+  function saveCart () {
+    dispatch(cartActions.saveGame());
+  }
+
+  useEffect(() => {
+    handleSaveCart();
+  }, []);
+
+  const handleSaveCart = async () => {
+    const token = localStorage.getItem("token");
+
+    const config = {
+      headers: { Authorization: `Bearer ${token}`}
+    }
+
+    api.post(`/bet/new-bet`, config)
+    .then((response) => {
+      if (response.status === 200) {            
+        localStorage.getItem("token");
+      }      
+    })
     .catch((error) => {
       toast.warning(error)
-    })    
+    })
   }
 
   return (
@@ -121,7 +133,7 @@ const NewBet: React.FC = () => {
         </div>
         <div className={classes.cart}>
           <Cart/>           
-          <div onClick={handleSaveCart}>
+          <div onClick={saveCart}>
             <Link to="/home">
               <h1>Save</h1>
               <FontAwesomeIcon icon={faArrowRight}/>

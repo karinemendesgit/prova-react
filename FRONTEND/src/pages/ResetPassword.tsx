@@ -23,8 +23,18 @@ const ResetPassword: React.FC = () => {
   const ResetHandler = async () => {
     const emailVerified = emailRef.current!.value.trim();
 
+    const token = localStorage.getItem("token");
+
+    const bodyParameters = {
+      email: emailVerified
+    }
+
+    const config = {
+      headers: { Authorization: `Bearer ${token}`}
+    } 
+
     if (emailValidation(emailVerified)) {
-      api.post(`/reset`, { email: emailVerified })
+      api.post(`/reset`, bodyParameters, config)
         .then((response) => {
           if (response.status === 200) {
             dispatch(authActions.resetPassword({ email: emailRef }));
