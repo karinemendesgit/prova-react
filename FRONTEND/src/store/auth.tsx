@@ -32,12 +32,15 @@ const authSlice = createSlice({
           state.isAuthenticated = true;
           state.userAuthenticated = userHaveAccount;
           toast.success('Login made successfully!');
-        } else {
-          toast.error('Incorrect password')
-        } 
-      } else {
-        toast.warn("Email not founded! Please verify your email or check if you have a register")
-      }
+        }
+        if (userHaveAccount && userHaveAccount.password !== password) {
+          toast.error("Password is incorrect!")
+        }
+        if (!userHaveAccount) {
+          toast.warning("Email wasn`t found in our registers!")
+        }
+      } 
+      
     },
     createAccount (state, action) {
       const {

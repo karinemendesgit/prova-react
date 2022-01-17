@@ -17,6 +17,10 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  function loggedIn() {
+    dispatch(authActions.login({ email: emailRef, password: passwordRef }));
+  }  
+
   useEffect(() => {
     LoginHandler();
   }, []);
@@ -25,18 +29,17 @@ const Login: React.FC = () => {
     const emailVerified = emailRef.current!.value.trim();
     const passwordVerified = passwordRef.current!.value.trim(); 
 
-    const token = localStorage.getItem("token");
+    //const token = localStorage.getItem("token");
 
-    const config = {
+   /* const config = {
       headers: { Authorization: `Bearer ${token}`}
-    }
+    }*/
     
     if (userValidations (emailVerified, passwordVerified)) {
-      api.post(`/login`, config)
+      api.post(`/login`, { email: emailVerified, password: passwordVerified})
         .then((response) => {
-          if (response.status === 200) {
-            dispatch(authActions.login({ email: emailRef, password: passwordRef }));
-            localStorage.setItem("token", response.headers.etag);
+          if (response.status === 200) {            
+            localStorage.setItem("token", response.data.token);
             navigate('/home');
           }
         })
@@ -54,7 +57,7 @@ const Login: React.FC = () => {
       <div className={classes.login}>
         <h3>Authentication</h3>
         <div className={classes.containerLogin}>
-          <form onSubmit={LoginHandler}>
+          <form onSubmit={loggedIn}>
             <div className={classes.inputLogin}>
               <input 
                 type="email" 
@@ -73,7 +76,7 @@ const Login: React.FC = () => {
           <Link to="/reset-password">
             <p className={classes.questionLogin}>I forget my password</p>
           </Link>
-          <div className={classes.buttonLogin} onClick={LoginHandler}>
+          <div className={classes.buttonLogin} onClick={loggedIn}>
             <h3>Log In</h3>
             <FontAwesomeIcon icon={faArrowRight}/>
           </div>
