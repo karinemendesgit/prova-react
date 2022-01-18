@@ -22,24 +22,24 @@ const Login: React.FC = () => {
 
     const token = localStorage.getItem("token");
     const config = {
-      headers: { Authorization: `Bearer ${token}`}
+      headers: { 
+        'authorization': `Bearer ${token}`,
+        'Accept': 'application/json',
+        'Content-type': 'application/json'
+      }
     }
     const bodyParameters = {
       email: emailVerified, password: passwordVerified
     }
 
-   /* api.post(`/login`, bodyParameters, config )
-      .then((response) => {
-        if (response.status === 200) {            
-          localStorage.setItem("token", response.data.token);
-          navigate('/home');
-        }
+    api.post(`/login`, bodyParameters, config )
+      .then((response) => {        
+        localStorage.setItem("token", response.data.token);
+        navigate('/home');
       })
       .catch((error) => {
         return toast.error(error.message);
-      })  */
-      
-      api.post
+      })
   }
 
   useEffect(() => {
