@@ -88,11 +88,11 @@ const authSlice = createSlice({
           const userLogger = state.users.find((user: User) => user.email === email);
           if (userLogger) {
             userLogger.password = '12345678';
-            toast.success("Your password has been redefined to '123456'");
+            toast.success("Your password has been redefined to '12345678'");
           }
         }
       } else {
-        toast.error('Fill the field with your email')
+        toast.warn('Fill the field with your email')
       }
     },
     logout (state) {

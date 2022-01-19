@@ -29,17 +29,32 @@ const Registration: React.FC = () => {
   async function RegisterHandler () {
     const nameVerified = nameRef.current!.value.trim();
     const emailVerified = emailRef.current!.value.trim();
-    const passwordVerified = passwordRef.current!.value.trim();  
+    const passwordVerified = passwordRef.current!.value.trim();
 
-    api.post(`/user/create`, { name: nameVerified, email: emailVerified, password: passwordVerified })
+    const token = localStorage.getItem("token");
+
+    const bodyParameters = {
+      name: nameVerified,
+      email: emailVerified,
+      password: passwordVerified,
+    }
+
+    const config = {
+      headers: { Authorization: `Bearer ${token}`}
+    } 
+    
+    api.post(`/user/create`, bodyParameters, config)
       .then((response) => {
-        if (response.status === 200) {
+
+          dispatch(authActions.createAccount({ name: nameRef, email: emailRef, password: passwordRef }));
+          localStorage.setItem("token", response.data.token);
           navigate('/');
-        }
+          
+        
       })
       .catch((error) => {
         return toast.error(error.message);
-      })      
+      })    
   }
 
   return (
