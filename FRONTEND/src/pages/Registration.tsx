@@ -20,13 +20,10 @@ const Registration: React.FC = () => {
 
   function createAccount() {
     dispatch(authActions.createAccount({ name: nameRef, email: emailRef, password: passwordRef }));
-  } 
+  }  
 
-  useEffect(() => {
-    RegisterHandler()
-  }, [])
-
-  async function RegisterHandler () {
+  async function RegisterHandler (e: any) {
+    e.preventDefault();
     const nameVerified = nameRef.current!.value.trim();
     const emailVerified = emailRef.current!.value.trim();
     const passwordVerified = passwordRef.current!.value.trim();
@@ -40,22 +37,20 @@ const Registration: React.FC = () => {
     }
 
     const config = {
-      headers: { Authorization: `Bearer ${token}`}
+      headers: { 
+        Authorization: `Bearer ${token}`,
+      }
     } 
     
-    api.post(`/user/create`, bodyParameters, config)
-      .then((response) => {
-
-          dispatch(authActions.createAccount({ name: nameRef, email: emailRef, password: passwordRef }));
-          localStorage.setItem("token", response.data.token);
-          navigate('/');
-          
-        
+    await api.post(`/user/create`, bodyParameters)
+      .then(response => {
+        console.log(response)
       })
       .catch((error) => {
         return toast.error(error.message);
       })    
   }
+
 
   return (
     <div className={classes.container}>

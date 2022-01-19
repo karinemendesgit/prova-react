@@ -9,12 +9,20 @@ import Sidebar from "../components/Sidebar";
 import classes from "../styles/login.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import axios from "axios";
 
 const Login: React.FC = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const dispatch = useDispatch(); 
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token !== null) {
+      navigate("/home")
+    }
+  }, [navigate])
   
   const LoginHandler = async () => {
     const emailVerified = emailRef.current!.value.trim();
@@ -23,18 +31,17 @@ const Login: React.FC = () => {
     const token = localStorage.getItem("token");
     const config = {
       headers: { 
-        'authorization': `Bearer ${token}`,
-        'Accept': 'application/json',
-        'Content-type': 'application/json'
+        Authorization: `Bearer ${token}`,
       }
     }
     const bodyParameters = {
-      email: emailVerified, password: passwordVerified
+      email: emailVerified, 
+      password: passwordVerified
     }
 
-    api.post(`/login`, bodyParameters, config )
-      .then((response) => {        
-        localStorage.setItem("token", response.data.token);
+    axios.post(`login`, bodyParameters,  )
+      .then((response) => {   
+        localStorage.setItem('token', response.data.token);
         navigate('/home');
       })
       .catch((error) => {

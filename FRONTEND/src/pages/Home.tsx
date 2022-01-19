@@ -11,6 +11,7 @@ import bets from '../services/games.json'
 import BetTypeButton from "../components/BetTypeButton";
 import GameListItem from "../components/GameListItem";
 import api from "../services/api";
+import axios from "axios";
 
 const Home: React.FC = () => {
   const [ betSelected, setBetSelected ] = useState<number[]>([]);
@@ -49,14 +50,14 @@ const Home: React.FC = () => {
   }
 
   const handlerListOfGames = async () => {
-    const token = localStorage.getItem("login");
+    const token = localStorage.getItem("token");
 
     const config = {
       headers: { Authorization: `Bearer ${token}`}
     }
 
-    api.get(`/bet/all-bets/`, config)
-    .then((response) => console.log(response)      
+    axios.get(`/bet/all-bets/`, config)
+    .then((response) => {console.log(response) }    
     )
     .catch((error) => {
       toast.warning(error)
@@ -67,7 +68,7 @@ const Home: React.FC = () => {
     handlerListOfGames();
   }, [handlerListOfGames]);
 
-  
+
 
   const buttonFilters = gameData.map((game, id) => (
       <BetTypeButton 

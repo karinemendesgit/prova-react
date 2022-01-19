@@ -21,32 +21,28 @@ const ResetPassword: React.FC = () => {
   }, []);
 
   const ResetHandler = async () => {
-    const emailVerified = emailRef.current!.value.trim();
+    //const emailVerified = emailRef.current!.value.trim();
 
     const token = localStorage.getItem("token");
 
     const bodyParameters = {
-      email: emailVerified
+      key: "value"
     }
 
     const config = {
       headers: { Authorization: `Bearer ${token}`}
-    } 
+    }
 
-    if (emailValidation(emailVerified)) {
-      api.post(`/reset`, bodyParameters, config)
-        .then((response) => {
-          if (response.status === 200) {
-            dispatch(authActions.resetPassword({ email: emailRef }));
-            navigate('/');
-          }
-        })
-        .catch((error) => {
-          return toast.error(error.message);
-        })
-    } else {
-      dispatch(authActions.resetPassword({ email: emailRef }));
-    }  
+    api.post(`/reset`, bodyParameters, config)
+      .then((response) => {
+        if (response.status === 200) {
+          dispatch(authActions.resetPassword({ email: emailRef }));
+          navigate('/');
+        }
+      })
+      .catch((error) => {
+        return toast.error(error.message);
+      })
 }
   
   return (
