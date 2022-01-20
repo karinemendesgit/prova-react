@@ -62,26 +62,32 @@ const NewBet: React.FC = () => {
     }));
   }
 
-  function saveCart () {
-    dispatch(cartActions.saveGame());
-  }
-
   useEffect(() => {
-    handleSaveCart();
-  }, []);
+    dispatch(cartActions.saveGame());
+  }, [dispatch]);
 
   const handleSaveCart = async () => {
     const token = localStorage.getItem("token");
 
     const config = {
-      headers: { Authorization: `Bearer ${token}`}
+      headers: { 
+        Authorization: `Bearer ${token}`
+      }
     }
 
-    api.post(`/bet/new-bet`, config)
-    .then((response) => {
-      if (response.status === 200) {            
-        localStorage.getItem("token");
-      }      
+    const bodyParameters = {
+      games : [
+        {
+          game_id: games.types,
+          numbers: getNumbers,
+        }
+      ]
+    }
+
+    api.post(`bet/new-bet`, bodyParameters, config )
+    .then(({ data }) => {          
+      localStorage.setItem("token", data.token);
+      
     })
     .catch((error) => {
       toast.warning(error)
@@ -133,7 +139,7 @@ const NewBet: React.FC = () => {
         </div>
         <div className={classes.cart}>
           <Cart/>           
-          <div onClick={saveCart}>
+          <div onClick={handleSaveCart}>
             <Link to="/home">
               <h1>Save</h1>
               <FontAwesomeIcon icon={faArrowRight}/>

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { emailValidation, passwordValidation } from '../utils/login-validations';
+import { emailValidation, passwordValidation } from '../utils/user-validations';
 import { toast } from 'react-toastify';
 
 interface User {
@@ -66,7 +66,7 @@ const authSlice = createSlice({
             });
             toast.success('User registred with success. Just login now!')
             } else {
-              toast.error('Has something wrong with your register (password must have at least 8 characters, email must have to @ and name must have at least 2 letters)')
+              toast.error('Has something wrong with your register (password must have at least 6 characters, email must have to @ and name must have at least 2 letters)')
             }
           } else {
             toast.warning("You're already registered!")
@@ -87,8 +87,8 @@ const authSlice = createSlice({
         } else {
           const userLogger = state.users.find((user: User) => user.email === email);
           if (userLogger) {
-            userLogger.password = '12345678';
-            toast.success("Your password has been redefined to '12345678'");
+            userLogger.password = '123456';
+            toast.success("Your password has been redefined to '123456'");
           }
         }
       } else {

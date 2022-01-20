@@ -7,7 +7,7 @@ export function emailValidation( email: string ) {
 };
 
 export function passwordValidation( password: string ) {
-  if(password.length >= 8){
+  if(password.length >= 6){
       return true
   }
   return false

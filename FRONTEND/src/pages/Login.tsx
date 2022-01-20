@@ -1,15 +1,14 @@
-import { useRef, useEffect } from "react";
+import { useRef, FormEvent, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store/auth";
-import api from "../services/api";
 import { toast, ToastContainer } from 'react-toastify';
+import api from "../services/api";
 
 import Sidebar from "../components/Sidebar";
 import classes from "../styles/login.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import axios from "axios";
 
 const Login: React.FC = () => {
   const emailRef = useRef<HTMLInputElement>(null);
@@ -17,18 +16,22 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch(); 
 
+  const loginAction = () => {
+    dispatch(authActions.login({
+      email: emailRef, password: passwordRef}))
+  }
+
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token !== null) {
-      navigate("/home")
-    }
-  }, [navigate])
-  
-  const LoginHandler = async () => {
+    loginAction();
+  }, [])
+
+  const LoginHandler = async (e: FormEvent) => {
+    e.preventDefault();
     const emailVerified = emailRef.current!.value.trim();
     const passwordVerified = passwordRef.current!.value.trim(); 
 
     const token = localStorage.getItem("token");
+
     const config = {
       headers: { 
         Authorization: `Bearer ${token}`,
@@ -39,20 +42,15 @@ const Login: React.FC = () => {
       password: passwordVerified
     }
 
-    axios.post(`login`, bodyParameters,  )
-      .then((response) => {   
-        localStorage.setItem('token', response.data.token);
+    await api.post(`login`, bodyParameters, config  )
+      .then(({ data }) => {
+        localStorage.setItem('token', data.token.token);
         navigate('/home');
       })
       .catch((error) => {
         return toast.error(error.message);
       })
   }
-
-  useEffect(() => {
-    LoginHandler();
-    dispatch(authActions.login({ email: emailRef, password: passwordRef }));
-  }, [LoginHandler, dispatch]);  
   
   return (
     <div className={classes.container}>
@@ -60,7 +58,7 @@ const Login: React.FC = () => {
       <div className={classes.login}>
         <h3>Authentication</h3>
         <div className={classes.containerLogin}>
-          <form >
+          <form>
             <div className={classes.inputLogin}>
               <input 
                 type="email" 
@@ -79,7 +77,7 @@ const Login: React.FC = () => {
           <Link to="/reset-password">
             <p className={classes.questionLogin}>I forget my password</p>
           </Link>
-          <div className={classes.buttonLogin} >
+          <div className={classes.buttonLogin} onClick={LoginHandler}>
             <h3>Log In</h3>
             <FontAwesomeIcon icon={faArrowRight}/>
           </div>

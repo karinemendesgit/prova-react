@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import api from "../services/api";
 import { authActions } from "../store/auth";
-import { emailValidation } from '../utils/login-validations';
+import { emailValidation } from '../utils/user-validations';
 
 const ResetPassword: React.FC = () => {
   const emailRef = useRef<HTMLInputElement>(null);
@@ -17,28 +17,29 @@ const ResetPassword: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    ResetHandler()
-  }, []);
+    dispatch(authActions.resetPassword({ email: emailRef }));
+  }, [dispatch])
 
-  const ResetHandler = async () => {
-    //const emailVerified = emailRef.current!.value.trim();
+  const ResetHandler = async (e: FormEvent) => {
+    e.preventDefault();
+    const emailVerified = emailRef.current!.value.trim();
 
     const token = localStorage.getItem("token");
 
     const bodyParameters = {
-      key: "value"
+      email: emailVerified,
     }
 
     const config = {
-      headers: { Authorization: `Bearer ${token}`}
+      headers: { 
+        Authorization: `Bearer ${token}`
+      }
     }
 
     api.post(`/reset`, bodyParameters, config)
-      .then((response) => {
-        if (response.status === 200) {
-          dispatch(authActions.resetPassword({ email: emailRef }));
-          navigate('/');
-        }
+      .then(({data}) => {
+        localStorage.setItem('token', data.token.token);
+        navigate('/');
       })
       .catch((error) => {
         return toast.error(error.message);
@@ -51,7 +52,7 @@ const ResetPassword: React.FC = () => {
       <div className={classes.reset}>
         <h3>Reset password</h3>
         <div className={classes.containerReset}>
-          <form onSubmit={ResetHandler}>
+          <form>
             <div className={classes.inputReset}>
             <input type="email" name="email "placeholder="Email" ref={emailRef} />
             </div>

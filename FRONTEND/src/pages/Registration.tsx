@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { FormEvent, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store/auth";
@@ -9,7 +9,6 @@ import classes from "../styles/registration.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { toast, ToastContainer } from "react-toastify";
-import { userValidations } from '../utils/login-validations';
 
 const Registration: React.FC = () => {
   const nameRef = useRef<HTMLInputElement>(null);
@@ -18,11 +17,11 @@ const Registration: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  function createAccount() {
+  useEffect(() => {
     dispatch(authActions.createAccount({ name: nameRef, email: emailRef, password: passwordRef }));
-  }  
+  }, [dispatch])
 
-  async function RegisterHandler (e: any) {
+  async function RegisterHandler (e: FormEvent) {
     e.preventDefault();
     const nameVerified = nameRef.current!.value.trim();
     const emailVerified = emailRef.current!.value.trim();
@@ -42,9 +41,10 @@ const Registration: React.FC = () => {
       }
     } 
     
-    await api.post(`/user/create`, bodyParameters)
-      .then(response => {
-        console.log(response)
+    await api.post(`user/create`, bodyParameters, config)
+      .then(({ data }) => {
+        localStorage.setItem('token', data.token.token);
+        navigate('/');
       })
       .catch((error) => {
         return toast.error(error.message);
@@ -58,7 +58,7 @@ const Registration: React.FC = () => {
       <div className={classes.registration}>
         <h3>Registration</h3>
         <div className={classes.containerRegistration}>
-          <form onSubmit={createAccount}>
+          <form>
             <div className={classes.inputRegistration}>
               <input type="text" name="name" placeholder="Name" ref={nameRef} />
             </div>
@@ -69,12 +69,12 @@ const Registration: React.FC = () => {
               <input type="password" name="password" placeholder="Password" ref={passwordRef} />
             </div>
           </form>
-          <div className={classes.buttonRegistration} onClick={createAccount}>
+          <div className={classes.buttonRegistration} onClick={RegisterHandler}>
             <h3>Register</h3>
             <FontAwesomeIcon icon={faArrowRight}/>
           </div>
         </div>
-        <div className={classes.backButtonRegistration}>
+        <div className={classes.backButtonRegistration} >
           <Link to="/">
             <FontAwesomeIcon icon={faArrowLeft}/>
             <h3>Back</h3>

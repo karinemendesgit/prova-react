@@ -11,7 +11,6 @@ import bets from '../services/games.json'
 import BetTypeButton from "../components/BetTypeButton";
 import GameListItem from "../components/GameListItem";
 import api from "../services/api";
-import axios from "axios";
 
 const Home: React.FC = () => {
   const [ betSelected, setBetSelected ] = useState<number[]>([]);
@@ -53,10 +52,12 @@ const Home: React.FC = () => {
     const token = localStorage.getItem("token");
 
     const config = {
-      headers: { Authorization: `Bearer ${token}`}
+      headers: { 
+        Authorization: `Bearer ${token}`
+      }
     }
 
-    axios.get(`/bet/all-bets/`, config)
+    api.get(`bet/all-bets/`, config)
     .then((response) => {console.log(response) }    
     )
     .catch((error) => {

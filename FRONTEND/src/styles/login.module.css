@@ -64,6 +64,7 @@
   margin-bottom: 43px;
   color: #B5C401;
   gap: 19px;
+  cursor: pointer;
 }
 
 .buttonLogin h3 {
