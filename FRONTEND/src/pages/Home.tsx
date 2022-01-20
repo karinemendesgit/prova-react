@@ -57,8 +57,8 @@ const Home: React.FC = () => {
       }
     }
 
-    api.get(`bet/all-bets/`, config)
-    .then((response) => {console.log(response) }    
+    await api.get(`bet/all-bets/`, config)
+    .then(({data}) => {console.log(data.token.token) }    
     )
     .catch((error) => {
       toast.warning(error)
@@ -67,7 +67,7 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     handlerListOfGames();
-  }, [handlerListOfGames]);
+  }, []);
 
 
 

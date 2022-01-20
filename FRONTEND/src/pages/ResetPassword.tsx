@@ -9,7 +9,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import api from "../services/api";
 import { authActions } from "../store/auth";
-import { emailValidation } from '../utils/user-validations';
 
 const ResetPassword: React.FC = () => {
   const emailRef = useRef<HTMLInputElement>(null);

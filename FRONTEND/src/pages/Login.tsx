@@ -1,8 +1,8 @@
-import { useRef, FormEvent, useEffect } from "react";
+import { useRef, FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store/auth";
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import api from "../services/api";
 
 import Sidebar from "../components/Sidebar";
@@ -16,15 +16,6 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch(); 
 
-  const loginAction = () => {
-    dispatch(authActions.login({
-      email: emailRef, password: passwordRef}))
-  }
-
-  useEffect(() => {
-    loginAction();
-  }, [])
-
   const LoginHandler = async (e: FormEvent) => {
     e.preventDefault();
     const emailVerified = emailRef.current!.value.trim();
@@ -36,20 +27,24 @@ const Login: React.FC = () => {
       headers: { 
         Authorization: `Bearer ${token}`,
       }
-    }
+    }    
+
     const bodyParameters = {
       email: emailVerified, 
       password: passwordVerified
     }
 
-    await api.post(`login`, bodyParameters, config  )
+    if (emailVerified && passwordVerified) {
+      dispatch(authActions.login({email: emailVerified, password: passwordVerified}))
+      await api.post(`login`, bodyParameters, config)
       .then(({ data }) => {
         localStorage.setItem('token', data.token.token);
         navigate('/home');
       })
       .catch((error) => {
-        return toast.error(error.message);
-      })
+        console.log(error.message);
+      })    
+    }    
   }
   
   return (
