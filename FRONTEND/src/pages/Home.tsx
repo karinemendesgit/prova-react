@@ -58,9 +58,13 @@ const Home: React.FC = () => {
     }
 
     await api.get(`bet/all-bets/`, config)
-    .then(({ data }) => { return data })
+    .then(({ data }) => {
+      console.log(data);
+      setBetSelected(data)
+      return data;
+    })
     .catch((error) => {
-      console.log(error.response.data.message)
+      toast.error(error.response.data.message);
     })
   }
 

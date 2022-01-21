@@ -1,10 +1,8 @@
 import { useRef, FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { authActions } from "../store/auth";
 import { toast, ToastContainer } from 'react-toastify';
-import api from "../services/api";
 
+import api from "../services/api";
 import Sidebar from "../components/Sidebar";
 import classes from "../styles/login.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -14,7 +12,6 @@ const Login: React.FC = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
-  const dispatch = useDispatch(); 
 
   const LoginHandler = async (e: FormEvent) => {
     e.preventDefault();

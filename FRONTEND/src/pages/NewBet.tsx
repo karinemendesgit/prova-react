@@ -21,7 +21,7 @@ const NewBet: React.FC = () => {
   const navigate = useNavigate();
   const [ selectedGame, setSelectedGame ] = useState(0);
 
-  type BetProps = {
+  interface BetProps {
     games: [
       {
         game_id: number;
@@ -76,8 +76,12 @@ const NewBet: React.FC = () => {
     dispatch(cartActions.saveGame());
   }, [dispatch]);
 
-  const handleSaveCart = async ( games: BetProps[]) => {
+  const handleSaveCart = async () => {
     const token = localStorage.getItem("token");
+    
+    const gameId = dataGame.id;
+    const numbers = selectNumber(gameId);
+    const bets: BetProps[] = [];
 
     const config = {
       headers: { 
@@ -86,17 +90,17 @@ const NewBet: React.FC = () => {
     }
 
     const bodyParameters = {
-      games: games
+      bets: bets
     }
 
     api.post(`bet/new-bet`, bodyParameters, config )
     .then(({ data }) => {         
-      localStorage.setItem("user", data.user.games)
+      localStorage.setItem("choosen_numbers", data.bet.choosen_numbers)
       console.log(data);
       navigate("/home");
     })
     .catch((error) => {
-      toast.warning(error)
+      toast.error(error.response.data.message);
     })
   }
 
