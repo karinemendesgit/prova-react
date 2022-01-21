@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { useDispatch } from 'react-redux';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 
 import { cartActions } from "../store/cart";
@@ -9,7 +9,7 @@ import cartIcon from "../assets/cart.svg";
 import "react-toastify/dist/ReactToastify.css";
 import classes from "../styles/newbet.module.css";
 import Header from "../components/Header";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import NewBetButtons from '../components/NewBetButtons';
 import { Cart } from "../components/Cart";
@@ -21,7 +21,7 @@ const NewBet: React.FC = () => {
   const navigate = useNavigate();
   const [ selectedGame, setSelectedGame ] = useState(0);
 
-  interface BetProps {
+  interface BetProps  {
     games: [
       {
         game_id: number;
@@ -76,7 +76,7 @@ const NewBet: React.FC = () => {
     dispatch(cartActions.saveGame());
   }, [dispatch]);
 
-  const handleSaveCart = async () => {
+  /*const handleSaveCart = async () => {
     const token = localStorage.getItem("token");
     
     const gameId = dataGame.id;
@@ -102,7 +102,7 @@ const NewBet: React.FC = () => {
     .catch((error) => {
       toast.error(error.response.data.message);
     })
-  }
+  }*/
 
   return (
     <div>
@@ -149,10 +149,6 @@ const NewBet: React.FC = () => {
         </div>
         <div className={classes.cart}>
           <Cart/>           
-          <div className={classes.saveCart} onClick={handleSaveCart}>
-            <h1>Save</h1>
-            <FontAwesomeIcon icon={faArrowRight}/>
-          </div>
         </div>
       </main>
       <ToastContainer
