@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from "react-router-dom";
 
 import { cartActions } from "../store/cart";
 import games from '../services/games.json';
@@ -18,8 +18,18 @@ import api from "../services/api";
 
 const NewBet: React.FC = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [ selectedGame, setSelectedGame ] = useState(0);
-  
+
+  type BetProps = {
+    games: [
+      {
+        game_id: number;
+        numbers: number[];
+      }
+    ]
+  }
+
   const dataGame = useMemo(() => games.types[selectedGame], [selectedGame])
   
   function selectNumber (index:number) {
@@ -66,7 +76,7 @@ const NewBet: React.FC = () => {
     dispatch(cartActions.saveGame());
   }, [dispatch]);
 
-  const handleSaveCart = async () => {
+  const handleSaveCart = async ( games: BetProps[]) => {
     const token = localStorage.getItem("token");
 
     const config = {
@@ -76,18 +86,14 @@ const NewBet: React.FC = () => {
     }
 
     const bodyParameters = {
-      games : [
-        {
-          game_id: games.types,
-          numbers: getNumbers,
-        }
-      ]
+      games: games
     }
 
     api.post(`bet/new-bet`, bodyParameters, config )
-    .then(({ data }) => {          
-      localStorage.setItem("token", data.token);
-      
+    .then(({ data }) => {         
+      localStorage.setItem("user", data.user.games)
+      console.log(data);
+      navigate("/home");
     })
     .catch((error) => {
       toast.warning(error)
@@ -139,11 +145,9 @@ const NewBet: React.FC = () => {
         </div>
         <div className={classes.cart}>
           <Cart/>           
-          <div onClick={handleSaveCart}>
-            <Link to="/home">
-              <h1>Save</h1>
-              <FontAwesomeIcon icon={faArrowRight}/>
-            </Link>
+          <div className={classes.saveCart} onClick={handleSaveCart}>
+            <h1>Save</h1>
+            <FontAwesomeIcon icon={faArrowRight}/>
           </div>
         </div>
       </main>

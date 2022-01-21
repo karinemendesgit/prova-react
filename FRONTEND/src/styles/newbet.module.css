@@ -102,7 +102,7 @@
   overflow-y: auto;
 }
 
-.cart a {
+.saveCart {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -111,6 +111,11 @@
   background-color: #F4F4F4;
   height: 96px;
   border-top: 1px solid #E2E2E2;
+  cursor: pointer;
+}
+
+.saveCart h1 {
+  font-size: 35px;
 }
 
 .cart h2 {

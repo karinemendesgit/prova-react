@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useRef } from "react";
+import { FormEvent, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store/auth";
@@ -15,11 +15,7 @@ const Registration: React.FC = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(authActions.createAccount({ name: nameRef, email: emailRef, password: passwordRef }));
-  }, [dispatch])
+  const dispatch = useDispatch(); 
 
   async function RegisterHandler (e: FormEvent) {
     e.preventDefault();
@@ -41,16 +37,18 @@ const Registration: React.FC = () => {
       }
     } 
     
-    await api.post(`user/create`, bodyParameters, config)
+    if (nameVerified && emailVerified && passwordVerified) {
+      dispatch(authActions.createAccount({ name: nameRef, email: emailRef, password: passwordRef }));
+      await api.post(`user/create`, bodyParameters, config)
       .then(({ data }) => {
         localStorage.setItem('token', data.token.token);
         navigate('/');
       })
       .catch((error) => {
-        return toast.error(error.message);
-      })    
+        return toast.error(error.response.data.message);
+      })
+    }        
   }
-
 
   return (
     <div className={classes.container}>

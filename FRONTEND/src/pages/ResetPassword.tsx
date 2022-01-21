@@ -1,4 +1,4 @@
-import { useRef, useEffect, FormEvent } from "react";
+import { useRef, FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
@@ -14,10 +14,6 @@ const ResetPassword: React.FC = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(authActions.resetPassword({ email: emailRef }));
-  }, [dispatch])
 
   const ResetHandler = async (e: FormEvent) => {
     e.preventDefault();
@@ -35,15 +31,18 @@ const ResetPassword: React.FC = () => {
       }
     }
 
-    api.post(`/reset`, bodyParameters, config)
+    if (emailVerified) {
+      dispatch(authActions.resetPassword({ email: emailVerified }));
+      await api.post(`/reset`, bodyParameters, config)
       .then(({data}) => {
         localStorage.setItem('token', data.token.token);
         navigate('/');
       })
       .catch((error) => {
-        return toast.error(error.message);
+        return toast.error(error.response.data.message);
       })
-}
+    }    
+  }
   
   return (
     <div className={classes.container}>
