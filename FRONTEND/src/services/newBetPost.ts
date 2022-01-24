@@ -12,7 +12,6 @@ import { toast } from "react-toastify";
 }*/
 
 interface postProps {
-  id?: number,
   game_id: number;
   numbers: number[];
 }

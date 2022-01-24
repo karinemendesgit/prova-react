@@ -12,7 +12,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 interface postProps {
-  id?: number,
   game_id: number;
   numbers: number[];
 }
@@ -27,12 +26,10 @@ export function Cart(): JSX.Element {
 
   const saveBet = async () => {
     const token = localStorage.getItem("token");
-
     const response = await NewBetPost(token, games);
 
     console.log(response);
-    if (response) {
-      
+    if (response) {      
       navigate('/home');
       toast.success('Bet successfully registered!');
       dispatch(cartActions.saveGame());
