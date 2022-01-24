@@ -1,7 +1,6 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { useDispatch } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
-import { useNavigate } from "react-router-dom";
 
 import { cartActions } from "../store/cart";
 import games from '../services/games.json';
@@ -9,27 +8,13 @@ import cartIcon from "../assets/cart.svg";
 import "react-toastify/dist/ReactToastify.css";
 import classes from "../styles/newbet.module.css";
 import Header from "../components/Header";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import NewBetButtons from '../components/NewBetButtons';
 import { Cart } from "../components/Cart";
 import NumbersButton from "../components/NumbersButtons";
-import api from "../services/api";
 
 const NewBet: React.FC = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [ selectedGame, setSelectedGame ] = useState(0);
-
-  interface BetProps  {
-    games: [
-      {
-        game_id: number;
-        numbers: number[];
-      }
-    ]
-  }
-
   const dataGame = useMemo(() => games.types[selectedGame], [selectedGame])
   
   function selectNumber (index:number) {
@@ -71,10 +56,6 @@ const NewBet: React.FC = () => {
       type: dataGame.type
     }));
   }
-
-  useEffect(() => {
-    dispatch(cartActions.saveGame());
-  }, [dispatch]);
 
   /*const handleSaveCart = async () => {
     const token = localStorage.getItem("token");
