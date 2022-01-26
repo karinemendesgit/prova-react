@@ -28,11 +28,10 @@ export const NewBetPost = async (games: postProps[]) => {
     games: games
   };
 
-  try {
-    const response = await api.post<betProps>('bet/new-bet', bodyParameters, config);
-    console.log(response)
-    return response.data;
-  } catch(error:any) {
-    toast.error(error);
-  }
+  const response = api.post('bet/new-bet', bodyParameters, config)
+  .then((response: any) => {return response})
+  .catch((error:any) => {
+    toast.error(error.response.data.message);
+  });
+  return response;
 }

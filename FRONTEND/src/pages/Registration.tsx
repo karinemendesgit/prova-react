@@ -9,6 +9,7 @@ import classes from "../styles/registration.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { toast, ToastContainer } from "react-toastify";
+import { userValidations } from '../utils/user-validations';
 
 const Registration: React.FC = () => {
   const nameRef = useRef<HTMLInputElement>(null);
@@ -36,12 +37,16 @@ const Registration: React.FC = () => {
         Authorization: `Bearer ${token}`,
       }
     } 
+
+    if (nameVerified.length < 3 || !userValidations (emailVerified, passwordVerified)) {
+      dispatch(authActions.createAccount({ name: nameVerified, email: emailVerified, password: passwordVerified }));
+    }
     
-    if (nameVerified && emailVerified && passwordVerified) {
-      dispatch(authActions.createAccount({ name: nameRef, email: emailRef, password: passwordRef }));
+    if (nameVerified && emailVerified && passwordVerified) {      
       await api.post(`user/create`, bodyParameters, config)
       .then(({ data }) => {
         localStorage.setItem('token', data.token.token);
+        dispatch(authActions.createAccount({ name: nameVerified, email: emailVerified, password: passwordVerified }));
         navigate('/');
       })
       .catch((error) => {
@@ -58,7 +63,7 @@ const Registration: React.FC = () => {
         <div className={classes.containerRegistration}>
           <form>
             <div className={classes.inputRegistration}>
-              <input type="text" name="name" placeholder="Name" ref={nameRef} />
+              <input type="text" name="name" placeholder="Name" ref={nameRef}/>
             </div>
             <div className={classes.inputRegistration}>
               <input type="email" name="email" placeholder="Email" ref={emailRef} />
