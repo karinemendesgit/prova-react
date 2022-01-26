@@ -8,17 +8,20 @@ interface CartProps {
 }
 
 interface Cart {
-  games: CartProps[];
+  games: CartProps;
   totalPrice: number;
 }
 
 const initialState: Cart = {
-  games: [],
+  games: {
+    game_id: 0,
+    numbers: [],
+  },
   totalPrice: 0,
 }
 
 const cartSlices = createSlice({
-  name: 'carts',
+  name: 'betcart',
   initialState,
   reducers: {
     addItemOnCart (state, action) {
@@ -44,13 +47,13 @@ const cartSlices = createSlice({
         return;
       }
 
-      state.games.push(action.payload.bets);
+      state.games.numbers.push(action.payload.bets);
       state.totalPrice += data.price;
       state.games = initialState.games;
     },
     removeItemFromCart (state, action) {
       const data: { id: number; price: number} = action.payload;
-      state.games.splice(data.id, 1);
+      state.games.numbers.splice(data.id, 1);
       state.totalPrice -= data.price;
     },
     /*saveGame (state) {
@@ -62,11 +65,11 @@ const cartSlices = createSlice({
       }
     },*/
     clearCart (state) {
-      state.games = [];
+      state.games.numbers = [];
       state.totalPrice = 0
     }
   }
 })
 
-export const cartActions = cartSlices.actions;
+export const cartAction = cartSlices.actions;
 export default cartSlices.reducer;
